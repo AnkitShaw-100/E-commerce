@@ -12,13 +12,16 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import errorHandler from "./middleware/errorMiddleware.js";
+import auth from "./routes/auth.js";
 
 dotenv.config();
 connectDB();
 
 const app = express();
+
 app.use(express.json());
 app.use(errorHandler);
+app.use("/api/auth", auth);
 app.get("/", (req, res) => {
   res.send("API is calling....");
 });
