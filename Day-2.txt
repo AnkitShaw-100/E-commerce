@@ -1,0 +1,8 @@
+Backend Tasks
+1. Product Schema banao (name, description, price, stock, category, images, seller, createdAt)
+2. GET /api/products → saare products fetch ✅
+3. GET /api/products/:id → single product detail ✅ 
+4. POST /api/products → product add (sirf seller + admin) ✅
+5. PUT /api/products/:id → update product (sirf seller + admin) ✅
+6. DELETE /api/products/:id → delete product (sirf seller + admin) ✅
+7. Middleware se RBAC lagao (buyer sirf dekh sake, seller/admin CRUD kare)

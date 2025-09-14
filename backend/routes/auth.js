@@ -7,7 +7,7 @@ const router = express.Router();
 // Sign-up function
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     // Database m check karo ki user pehele se hai ki nahi
     // Agar hai toh error ya warnging show krna hogaa
     // Agar nahi hai toh new user create krna hogaa
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // 3. New user ko db m add kardo
-    const newUser = new User({ name, email, password: hashedPassword });
+  const newUser = new User({ name, email, password: hashedPassword, role });
     await newUser.save();
 
     res.status(200).json({ message: "User registered successfully" });
@@ -47,7 +47,7 @@ router.post("/login", async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     res.json({
