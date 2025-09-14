@@ -1,8 +1,7 @@
 1. Setup Express server + MongoDB connection ✅
 2. Create User schema with role field ✅
-3. Add signup/login APIs with JWT
-4. Add middleware for isAuth + authorizeRoles (RBAC)
-5. Test in Postman: Buyer vs Seller vs Admin
-
+3. Add signup/login APIs with JWT ✅
+4. Add middleware for isAuth + authorizeRoles (RBAC) ✅
+5. Test in Postman: Buyer vs Seller vs Admin ✅
 
 // Models -> contollers -> routes -> index.js 
