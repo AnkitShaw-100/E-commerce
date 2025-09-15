@@ -1,0 +1,5 @@
+1. Cart – Buyer add/remove products.
+2. Error Handling improve – Validation error, duplicate key, invalid ObjectId handle karo.
+3. Validation add – express-validator ya joi se user/product/order inputs validate karo.
+4. Security packages install – helmet, express-mongo-sanitize, xss-clean.
+5. Testing – Postman se full flow (auth → product → order) test karo.

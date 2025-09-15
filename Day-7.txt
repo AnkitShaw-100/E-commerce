@@ -1,0 +1,12 @@
+Security
+1. Helmet, CORS setup.
+2. Password hashing + JWT expiry confirm.
+3. Rate limiter for auth routes.
+
+Env & Config
+4. Proper .env usage.
+5. Prod-ready DB (MongoDB Atlas).
+
+Deployment
+6. Deploy backend on Render/Heroku/Vercel.
+7. MongoDB Atlas connect.

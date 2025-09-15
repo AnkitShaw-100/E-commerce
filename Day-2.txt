@@ -5,4 +5,4 @@ Backend Tasks
 4. POST /api/products → product add (sirf seller + admin) ✅
 5. PUT /api/products/:id → update product (sirf seller + admin) ✅
 6. DELETE /api/products/:id → delete product (sirf seller + admin) ✅
-7. Middleware se RBAC lagao (buyer sirf dekh sake, seller/admin CRUD kare)
+7. Middleware se RBAC lagao (buyer sirf dekh sake, seller/admin CRUD kare) ✅

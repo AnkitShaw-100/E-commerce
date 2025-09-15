@@ -1,0 +1,6 @@
+1. Add new product form (POST /api/products).
+2. My products list + edit/delete (PUT/DELETE).
+3. Orders for my products.
+4. All users list (GET /api/users).
+5. Manage all orders.
+6. Remove products if needed.

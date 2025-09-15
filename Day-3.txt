@@ -1,0 +1,7 @@
+Order Schema banao (user, orderItems, totalPrice, status, createdAt)
+1. POST /api/orders → buyer order place kare ✅
+2. GET /api/orders/my → buyer apne orders dekhe ✅
+3. GET /api/orders/:id → ek order detail (buyer/seller/admin jo allowed hai) ✅
+4. GET /api/orders → saare orders (sirf admin) ✅
+5. PUT /api/orders/:id → seller/admin order status update kare (pending → shipped → delivered) ✅
+6. Test karo buyer ke orders, seller ke products ke orders, admin ke all orders 

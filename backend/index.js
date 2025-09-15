@@ -14,7 +14,7 @@ import connectDB from "./config/db.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 import auth from "./routes/auth.js";
 import productRoutes from "./routes/product.js";
-
+import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -25,6 +25,7 @@ app.use(express.json());
 app.use(errorHandler);
 app.use("/api/auth", auth);
 app.use("/api/products", productRoutes);
+app.use("/api/orders");
 app.get("/", (req, res) => {
   res.send("API is calling....");
 });

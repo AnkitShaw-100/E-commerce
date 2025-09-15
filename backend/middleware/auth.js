@@ -4,7 +4,7 @@ function auth(req, res, next) {
   const authHeader = req.header("Authorization");
   const token =
     authHeader && authHeader.startsWith("Bearer ")
-      ? authHeader.split(" ")[1] 
+      ? authHeader.split(" ")[1]
       : null;
 
   if (!token)
