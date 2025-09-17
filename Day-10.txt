@@ -1,3 +1,0 @@
-1. Cart → Checkout page.
-2. Place order (POST /api/orders).
-3. My orders page (GET /api/orders/my).

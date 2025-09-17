@@ -1,3 +1,0 @@
-1. Product listing (GET /api/products).
-2. Product details (GET /api/products/:id).
-3. Add to cart (frontend only).

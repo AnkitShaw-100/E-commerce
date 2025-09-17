@@ -10,11 +10,11 @@ export const createOrder = async (req, res) => {
       return res.status(400).json({ message: "No order items" });
     }
 
-    // Agar thik hai ek new order create karo and db m store kardo
+    // new order object banao
     const order = new Order({
-      user: req.user.id,
-      orderItems,
-      totalPrice,
+      user: req.user.id, // jisne order kiya hai uska id
+      orderItems, // kya kya cheez order ki hai
+      totalPrice, // kitna paisa
     });
 
     const createdOrder = await order.save();
@@ -27,9 +27,14 @@ export const createOrder = async (req, res) => {
 // GET /api/orders/my → buyer apne orders dekhe
 export const getMyOrders = async (req, res) => {
   try {
-    // User apna id dega backend ke route m usse db ka function use krke .populate krke krke db se orders ka details nikal lengeee
+    // Ye ek path hai jo nested relationships ko define karta hai
+    // Matlab: orderItems field ke andar jo product field hai, usse populate karna hai
+    // Example: Agar aapke pass Order model hai jisme orderItems array hai, aur har orderItem mein product reference hai, to ye us product ki details fetch karega
     const orders = await Order.find({ user: req.user.id }).populate(
       "orderItems.product",
+      //       Ye select fields hain - sirf ye specific fields return karenge
+      // Matlab: Product ki saari details nahi, sirf name aur price fields hi return karni hain
+      // Space-separated string format mein likha gaya hai
       "name price"
     );
     req.json(orders);

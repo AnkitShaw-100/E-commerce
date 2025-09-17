@@ -25,7 +25,9 @@ app.use(express.json());
 app.use(errorHandler);
 app.use("/api/auth", auth);
 app.use("/api/products", productRoutes);
-app.use("/api/orders");
+app.use("/api/orders", orderRoutes);
+app.use('/uploads', express.static('uploads'));
+
 app.get("/", (req, res) => {
   res.send("API is calling....");
 });

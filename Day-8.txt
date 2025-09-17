@@ -1,3 +1,0 @@
-1. Day 10 → React + Tailwind setup
-2. Login, Signup, Navbar, Footer.
-3. Auth context + JWT store in localStorage.
