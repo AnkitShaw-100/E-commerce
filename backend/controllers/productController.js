@@ -1,10 +1,13 @@
-import Product from '../models/Product.js';
-import { uploadImageToCloudinary, deleteImageFromCloudinary } from '../utils/uploadToCloudinary.js';
+import Product from "../models/Product.js";
+import {
+  uploadImageToCloudinary,
+  deleteImageFromCloudinary,
+} from "../utils/uploadToCloudinary.js";
 
 // Get all products
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate('seller', 'name email');
+    const products = await Product.find().populate("seller", "name email");
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -15,12 +18,12 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById(id).populate('seller', 'name email');
-    
+    const product = await Product.findById(id).populate("seller", "name email");
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-    
+
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -30,25 +33,41 @@ export const getProductById = async (req, res) => {
 // Add product with image upload
 export const addProduct = async (req, res) => {
   try {
-    const { name, description, price, stock, category } = req.body;
+    const { name, description, price, stock, category, images } = req.body;
 
-    let imageData = null;
-    
-    // Handle image upload
+    let imagesArray = [];
+
+    // Handle image upload from file
     if (req.file) {
-      const uploadResult = await uploadImageToCloudinary(req.file.path, 'products');
-      
+      const uploadResult = await uploadImageToCloudinary(
+        req.file.path,
+        "products"
+      );
+
       if (!uploadResult.success) {
-        return res.status(400).json({ 
-          message: 'Image upload failed', 
-          error: uploadResult.error 
+        return res.status(400).json({
+          message: "Image upload failed",
+          error: uploadResult.error,
         });
       }
-      
-      imageData = {
+
+      imagesArray.push({
         url: uploadResult.url,
-        publicId: uploadResult.publicId
-      };
+        publicId: uploadResult.publicId,
+      });
+    }
+
+    // Handle image links from req.body.images
+    if (images) {
+      if (Array.isArray(images)) {
+        // multiple image links
+        images.forEach((img) => {
+          imagesArray.push({ url: img, publicId: null });
+        });
+      } else if (typeof images === "string") {
+        // single image link
+        imagesArray.push({ url: images, publicId: null });
+      }
     }
 
     const newProduct = new Product({
@@ -57,14 +76,15 @@ export const addProduct = async (req, res) => {
       price,
       stock,
       category,
-      images: imageData, // Store Cloudinary data
-      seller: req.user.id // Add seller from auth middleware
+      images: imagesArray,
+      seller: req.user.id,
     });
 
     await newProduct.save();
-    res.status(201).json({ 
+
+    res.status(201).json({
       message: "Product added successfully",
-      product: newProduct
+      product: newProduct,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -76,14 +96,19 @@ export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
-    
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
     // Authorization check (seller can only update their own products)
-    if (product.seller.toString() !== req.user.id && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized to update this product' });
+    if (
+      product.seller.toString() !== req.user.id &&
+      req.user.role !== "admin"
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to update this product" });
     }
 
     // Handle new image upload
@@ -94,12 +119,15 @@ export const updateProduct = async (req, res) => {
       }
 
       // Upload new image
-      const uploadResult = await uploadImageToCloudinary(req.file.path, 'products');
-      
+      const uploadResult = await uploadImageToCloudinary(
+        req.file.path,
+        "products"
+      );
+
       if (uploadResult.success) {
         req.body.images = {
           url: uploadResult.url,
-          publicId: uploadResult.publicId
+          publicId: uploadResult.publicId,
         };
       }
     }
@@ -123,14 +151,19 @@ export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
-    
+
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
 
     // Authorization check
-    if (product.seller.toString() !== req.user.id && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized to delete this product' });
+    if (
+      product.seller.toString() !== req.user.id &&
+      req.user.role !== "admin"
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to delete this product" });
     }
 
     // Delete image from Cloudinary
