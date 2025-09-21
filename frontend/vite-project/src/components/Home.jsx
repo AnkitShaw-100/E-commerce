@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
+
+  const handleShopClick = () => {
+    navigate('/shop');
+  };
 
   const slides = [
     {
@@ -33,7 +39,7 @@ const Home = () => {
       setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -68,7 +74,7 @@ const Home = () => {
                       : "opacity-0 translate-y-8"
                       }`}
                   >
-                    <h2 className="text-xl font-semibold text-emerald-600 mb-2">
+                    <h2 className="text-2xl font-bold text-emerald-600 mb-2">
                       {slide.subtitle}
                     </h2>
                     <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4">
@@ -77,7 +83,10 @@ const Home = () => {
                     <p className="text-lg text-gray-700 mb-6 max-w-lg">
                       {slide.desc}
                     </p>
-                    <button className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white text-lg font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+                    <button 
+                      onClick={handleShopClick}
+                      className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white text-lg font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
+                    >
                       {slide.cta}
                     </button>
                   </div>
