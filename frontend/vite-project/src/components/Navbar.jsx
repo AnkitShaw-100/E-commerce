@@ -86,9 +86,8 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden transition-all duration-300 ${
-          menuOpen ? "max-h-screen py-6" : "max-h-0 overflow-hidden py-0"
-        } bg-white shadow-lg border-t border-gray-200`}
+        className={`md:hidden transition-all duration-300 ${menuOpen ? "max-h-screen py-6" : "max-h-0 overflow-hidden py-0"
+          } bg-white shadow-lg border-t border-gray-200`}
       >
         <div className="flex flex-col items-center space-y-6">
           {/* Mobile Search */}

@@ -83,7 +83,7 @@ const Home = () => {
                     <p className="text-sm sm:text-base lg:text-lg text-gray-700 mb-4 sm:mb-6 max-w-lg mx-auto">
                       {slide.desc}
                     </p>
-                    <button 
+                    <button
                       onClick={handleShopClick}
                       className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white text-sm sm:text-base lg:text-lg font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
                     >

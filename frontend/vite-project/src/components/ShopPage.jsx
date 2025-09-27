@@ -111,7 +111,7 @@ const ShopPage = () => {
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    
+
     let matchesPrice = true;
     if (priceRange !== 'all') {
       const [min, max] = priceRange.split('-').map(p => p.replace('+', ''));
@@ -121,7 +121,7 @@ const ShopPage = () => {
         matchesPrice = product.price >= parseInt(min);
       }
     }
-    
+
     return matchesSearch && matchesCategory && matchesPrice;
   });
 
@@ -226,7 +226,7 @@ const ShopPage = () => {
                 <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
                   {product.name}
                 </h3>
-                
+
                 {/* Rating */}
                 <div className="flex items-center gap-1 mb-2">
                   <div className="flex items-center text-yellow-400">
