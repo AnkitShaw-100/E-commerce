@@ -10,6 +10,7 @@
 
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from "./config/db.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 import auth from "./routes/auth.js";
@@ -21,12 +22,22 @@ connectDB();
 
 const app = express();
 
+// CORS configuration
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Vite dev server URL
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 app.use(errorHandler);
 app.use("/api/auth", auth);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("API is calling....");

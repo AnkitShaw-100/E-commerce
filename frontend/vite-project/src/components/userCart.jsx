@@ -22,7 +22,6 @@ const UserCart = () => {
         "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=300&q=80",
     },
   ]);
-
   const handleQuantityChange = (id, delta) => {
     setCartItems((prev) =>
       prev.map((item) =>

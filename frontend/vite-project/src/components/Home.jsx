@@ -42,9 +42,9 @@ const Home = () => {
   }, [slides.length]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-16">
       {/* Hero Section */}
-      <div className="relative h-[700px] overflow-hidden">
+      <div className="relative min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] xl:min-h-[800px] 2xl:min-h-[900px] overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -62,10 +62,10 @@ const Home = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-6 w-full">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Text Content */}
-              <div className="relative h-[500px] flex flex-col justify-center space-y-4">
+              <div className="relative min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] flex flex-col justify-center space-y-3 lg:space-y-4 text-center">
                 {slides.map((slide, index) => (
                   <div
                     key={index}
@@ -74,18 +74,18 @@ const Home = () => {
                       : "opacity-0 translate-y-8"
                       }`}
                   >
-                    <h2 className="text-2xl font-bold text-emerald-600 mb-2">
+                    <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-emerald-600 mb-1 sm:mb-2">
                       {slide.subtitle}
                     </h2>
-                    <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-gray-900 mb-3 sm:mb-4 leading-tight">
                       {slide.title}
                     </h1>
-                    <p className="text-lg text-gray-700 mb-6 max-w-lg">
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-700 mb-4 sm:mb-6 max-w-lg mx-auto">
                       {slide.desc}
                     </p>
                     <button 
                       onClick={handleShopClick}
-                      className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white text-lg font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
+                      className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white text-sm sm:text-base lg:text-lg font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
                     >
                       {slide.cta}
                     </button>
@@ -94,7 +94,7 @@ const Home = () => {
               </div>
 
               {/* Hero Image Preview */}
-              <div className="relative w-full h-[500px] flex items-center justify-center">
+              <div className="relative w-full min-h-[250px] sm:min-h-[300px] lg:min-h-[500px] xl:min-h-[600px] flex items-center justify-center mt-8 lg:mt-0">
                 {slides.map((slide, index) => (
                   <div
                     key={index}
@@ -106,7 +106,7 @@ const Home = () => {
                     <img
                       src={slide.bg}
                       alt={slide.title}
-                      className="rounded-3xl shadow-2xl w-[550px] h-[400px] object-cover"
+                      className="rounded-2xl sm:rounded-3xl shadow-2xl w-[280px] sm:w-[350px] md:w-[450px] lg:w-[550px] xl:w-[650px] h-[200px] sm:h-[250px] md:h-[320px] lg:h-[400px] xl:h-[480px] object-cover"
                     />
                   </div>
                 ))}
