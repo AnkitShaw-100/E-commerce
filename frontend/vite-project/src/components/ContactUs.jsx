@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { contactAPI } from "../services/apiServices.js";
 
 const ContactUs = () => {
     const [formData, setFormData] = useState({
@@ -7,29 +6,23 @@ const ContactUs = () => {
         email: "",
         message: "",
     });
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setLoading(true);
-        setSuccess("");
-        setError("");
-
-        try {
-            const response = await contactAPI.sendMessage(formData);
-            setSuccess(response.message);
-            setFormData({ name: "", email: "", message: "" });
-        } catch (error) {
-            setError(error.message || "Failed to send message. Please try again.");
-        } finally {
-            setLoading(false);
+        
+        // Simple validation
+        if (!formData.name || !formData.email || !formData.message) {
+            alert("Please fill in all fields");
+            return;
         }
+
+        // Simple alert for now - can be enhanced later
+        alert("Thank you for your message! We'll get back to you soon.");
+        setFormData({ name: "", email: "", message: "" });
     };
 
     return (
@@ -43,18 +36,6 @@ const ContactUs = () => {
                         Fill out the form below and we'll get back to you shortly.
                     </p>
                 </div>
-
-                {/* Status Messages */}
-                {success && (
-                    <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-center max-w-2xl mx-auto">
-                        <p className="text-green-600 font-medium">{success}</p>
-                    </div>
-                )}
-                {error && (
-                    <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-center max-w-2xl mx-auto">
-                        <p className="text-red-600 font-medium">{error}</p>
-                    </div>
-                )}
 
                 {/* Content Grid */}
                 <div className="grid lg:grid-cols-2 gap-10">
@@ -104,10 +85,9 @@ const ContactUs = () => {
 
                         <button
                             type="submit"
-                            disabled={loading}
-                            className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 disabled:from-slate-400 disabled:to-slate-500 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 w-full disabled:transform-none disabled:hover:shadow-lg"
+                            className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 w-full"
                         >
-                            {loading ? "Sending..." : "Send Message"}
+                            Send Message
                         </button>
                     </form>
 
