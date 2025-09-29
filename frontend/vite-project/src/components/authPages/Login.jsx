@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from "react-icons/fa";
 import { authAPI } from "../../services/apiServices.js";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -39,12 +41,8 @@ const Login = () => {
         try {
             const response = await authAPI.login(formData);
 
-            // Store token in localStorage if remember me is checked
-            if (rememberMe) {
-                localStorage.setItem('token', response.token);
-            } else {
-                sessionStorage.setItem('token', response.token);
-            }
+            // Use AuthContext login function to update user state
+            login(response.user, response.token);
 
             setSuccess('Login successful! Redirecting...');
             // Redirect to home page after successful login

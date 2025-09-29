@@ -16,7 +16,6 @@ function auth(req, res, next) {
 
   try {
     // If error nhi hua toh token m se _id, role, etc jo bhi diye the usko extract kr rahe hai
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // req.user m save kar rahe hai
     req.user = decoded;

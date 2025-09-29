@@ -26,23 +26,23 @@ const ContactUs = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-16 sm:pt-20 md:pt-24 py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+        <div className="bg-gray-50 pt-16 sm:pt-20 md:pt-24 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto">
                 {/* Heading */}
-                <div className="text-center mb-8 sm:mb-10 md:mb-14">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-2 sm:mb-3">Contact Us</h1>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+                <div className="text-center mb-8 sm:mb-10">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">Contact Us</h1>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
                         Have questions? We'd love to hear from you.<br className="hidden sm:block" />
                         <span className="sm:hidden"> </span>Fill out the form below and we'll get back to you shortly.
                     </p>
                 </div>
 
                 {/* Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                     {/* Contact Form */}
                     <form
                         onSubmit={handleSubmit}
-                        className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 space-y-5 sm:space-y-6 md:space-y-7 border border-gray-100 order-2 lg:order-1"
+                        className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 space-y-5 sm:space-y-6 border border-gray-100 order-2 lg:order-1"
                     >
                         <div>
                             <label className="block text-gray-800 font-semibold mb-2 text-sm sm:text-base">Name</label>
@@ -78,8 +78,8 @@ const ContactUs = () => {
                                 onChange={handleChange}
                                 required
                                 placeholder="Your Message"
-                                rows={4}
-                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none text-sm sm:text-base min-h-[100px] sm:min-h-[120px]"
+                                rows={5}
+                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none text-sm sm:text-base"
                             />
                         </div>
 
@@ -92,13 +92,13 @@ const ContactUs = () => {
                     </form>
 
                     {/* Contact Info */}
-                    <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 border border-gray-100 order-1 lg:order-2">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 border border-gray-100 order-1 lg:order-2">
                         {/* Image Section */}
                         <div className="relative mb-6 sm:mb-8">
                             <img
                                 src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
                                 alt="Customer Service - Contact Us"
-                                className="rounded-xl sm:rounded-2xl shadow-lg w-full h-40 sm:h-48 md:h-52 object-cover"
+                                className="rounded-xl sm:rounded-2xl shadow-lg w-full h-40 sm:h-48 object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl sm:rounded-2xl"></div>
                             <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-white">
@@ -107,7 +107,7 @@ const ContactUs = () => {
                         </div>
 
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Get in Touch</h2>
-                        <div className="space-y-4 sm:space-y-6">
+                        <div className="space-y-4 sm:space-y-5">
                             <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
                                 <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
                                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -139,7 +139,7 @@ const ContactUs = () => {
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <h3 className="font-semibold text-gray-800 text-sm sm:text-base">Address</h3>
-                                    <p className="text-gray-600 text-xs sm:text-sm">Mumbai, Maharashtra, India</p>
+                                    <p className="text-gray-600 text-xs sm:text-sm">Kolkata, West Bengal, India</p>
                                 </div>
                             </div>
                         </div>

@@ -1,15 +1,30 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiX, FiSearch } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
+import { FiShoppingCart, FiMenu, FiX, FiSearch, FiLogOut } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const { user, logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      setMenuOpen(false);
+    }
+    catch (error) {
+      console.error('Logout failed: ', error);
+    }
+  }
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
+    ...(isAuthenticated ? [{ name: "My Profile", path: "/profile" }] : [])
   ];
 
   return (
@@ -58,7 +73,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Right Side (Cart / Login / Mobile Menu) */}
+          {/* Right Side (Cart / Login-Logout / Mobile Menu) */}
           <div className="flex items-center space-x-4">
             <Link
               to="/cart"
@@ -66,12 +81,25 @@ export default function Navbar() {
             >
               <FiShoppingCart />
             </Link>
-            <Link
-              to="/login"
-              className="px-5 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300 hidden md:block"
-            >
-              Login
-            </Link>
+
+            {isAuthenticated ? (
+              <div className="hidden md:flex items-center space-x-3">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-300"
+                >
+                  <FiLogOut size={16} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="px-5 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300 hidden md:block"
+              >
+                Login
+              </Link>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -116,13 +144,29 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <Link
-            to="/login"
-            className="px-5 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300"
-            onClick={() => setMenuOpen(false)}
-          >
-            Login
-          </Link>
+
+          {isAuthenticated ? (
+            <>
+              <div className="text-center">
+                <p className="text-gray-700 text-sm">Hi, {user?.name || 'User'}</p>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-300"
+              >
+                <FiLogOut />
+                <span>Logout</span>
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="px-5 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300"
+              onClick={() => setMenuOpen(false)}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>
