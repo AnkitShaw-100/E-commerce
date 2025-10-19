@@ -44,17 +44,23 @@ const UserCart = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-16 sm:pt-20 md:pt-24 py-6 sm:py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 sm:mb-6 md:mb-8 text-center lg:text-left">Your Cart</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 sm:mb-6 md:mb-8 text-center lg:text-left">
+          Your Cart
+        </h1>
 
         {cartItems.length === 0 ? (
           <div className="text-center py-12 sm:py-16">
             <div className="bg-gray-100 rounded-full w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 flex items-center justify-center">
               <span className="text-3xl sm:text-4xl">🛒</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-            <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Looks like you haven't added anything yet</p>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+              Your cart is empty
+            </h2>
+            <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
+              Looks like you haven't added anything yet
+            </p>
             <button
-              onClick={() => navigate('/shop')}
+              onClick={() => navigate("/shop")}
               className="bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg hover:shadow-lg transition-all font-semibold text-sm sm:text-base"
             >
               Start Shopping
@@ -117,8 +123,12 @@ const UserCart = () => {
 
                   {/* Item Total */}
                   <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-100 flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-gray-500">Item Total:</span>
-                    <span className="font-bold text-base sm:text-lg text-gray-900">₹{item.price * item.quantity}</span>
+                    <span className="text-xs sm:text-sm text-gray-500">
+                      Item Total:
+                    </span>
+                    <span className="font-bold text-base sm:text-lg text-gray-900">
+                      ₹{item.price * item.quantity}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -126,32 +136,45 @@ const UserCart = () => {
 
             {/* Cart Summary */}
             <div className="bg-white rounded-lg sm:rounded-xl shadow-md border border-gray-100 p-4 sm:p-6 h-fit lg:sticky lg:top-8 mt-4 lg:mt-0">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Order Summary</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
+                Order Summary
+              </h2>
 
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex justify-between items-center py-1 sm:py-2">
-                  <span className="text-sm sm:text-base text-gray-600">Items ({cartItems.reduce((acc, item) => acc + item.quantity, 0)}):</span>
-                  <span className="font-semibold text-sm sm:text-base">₹{subtotal}</span>
+                  <span className="text-sm sm:text-base text-gray-600">
+                    Items (
+                    {cartItems.reduce((acc, item) => acc + item.quantity, 0)}):
+                  </span>
+                  <span className="font-semibold text-sm sm:text-base">
+                    ₹{subtotal}
+                  </span>
                 </div>
 
                 <div className="flex justify-between items-center py-1 sm:py-2">
-                  <span className="text-sm sm:text-base text-gray-600">Delivery:</span>
-                  <span className="font-semibold text-gray-900 text-sm sm:text-base">₹50</span>
+                  <span className="text-sm sm:text-base text-gray-600">
+                    Delivery:
+                  </span>
+                  <span className="font-semibold text-gray-900 text-sm sm:text-base">
+                    ₹50
+                  </span>
                 </div>
 
                 <hr className="border-gray-200" />
 
                 <div className="flex justify-between items-center py-1 sm:py-2">
-                  <span className="text-base sm:text-lg font-bold text-gray-900">Total:</span>
-                  <span className="text-lg sm:text-xl font-bold text-gray-900">₹{subtotal + 50}</span>
+                  <span className="text-base sm:text-lg font-bold text-gray-900">
+                    Total:
+                  </span>
+                  <span className="text-lg sm:text-xl font-bold text-gray-900">
+                    ₹{subtotal + 50}
+                  </span>
                 </div>
               </div>
 
               <button className="w-full mt-4 sm:mt-6 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white font-semibold py-3 sm:py-4 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 text-sm sm:text-base">
                 Proceed to Checkout
               </button>
-
-
             </div>
           </div>
         )}

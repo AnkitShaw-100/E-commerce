@@ -114,7 +114,7 @@ export default function Navbar() {
                 <div className="hidden md:flex items-center space-x-3">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold"
+                  className="flex items-center space-x-2 px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold text-base rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 disabled:from-slate-400 disabled:to-slate-500 disabled:transform-none disabled:hover:shadow-lg"
                   style={{ fontSize: 'clamp(0.85rem, 1.2vw, 1rem)' }}
                 >
                   <FiLogOut size={16} />
@@ -124,7 +124,7 @@ export default function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="px-4 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hidden md:inline-flex"
+                className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold shadow-lg hidden md:inline-flex transform hover:-translate-y-0.5 transition-all duration-300"
                 style={{ fontSize: 'clamp(0.85rem, 1.2vw, 1rem)' }}
               >
                 Login
@@ -171,7 +171,7 @@ export default function Navbar() {
               </div>
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-2 px-5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-300"
+                className="flex items-center space-x-2 px-5 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 disabled:from-slate-400 disabled:to-slate-500 disabled:transform-none disabled:hover:shadow-lg"
               >
                 <FiLogOut />
                 <span>Logout</span>
@@ -180,7 +180,7 @@ export default function Navbar() {
           ) : (
             <Link
               to="/login"
-              className="px-5 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300"
+              className="px-5 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
               onClick={() => setMenuOpen(false)}
             >
               Login

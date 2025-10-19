@@ -68,3 +68,26 @@ export const orderAPI = {
     }
   },
 };
+
+// User API functions
+export const userAPI = {
+  // Get current user's profile
+  getProfile: async () => {
+    try {
+      const response = await API.get('/api/users/me');
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to fetch profile' };
+    }
+  },
+
+  // Update current user's profile
+  updateProfile: async (payload) => {
+    try {
+      const response = await API.put('/api/users/me', payload);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to update profile' };
+    }
+  },
+};

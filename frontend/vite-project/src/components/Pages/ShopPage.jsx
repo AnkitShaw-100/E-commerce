@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { FiSearch, FiFilter, FiHeart, FiShoppingCart, FiStar } from 'react-icons/fi';
+import React, { useState } from "react";
+import {
+  FiSearch,
+  FiFilter,
+  FiHeart,
+  FiShoppingCart,
+  FiStar,
+} from "react-icons/fi";
 
 const ShopPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState('all');
-  const [sortBy, setSortBy] = useState('featured');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [priceRange, setPriceRange] = useState("all");
+  const [sortBy, setSortBy] = useState("featured");
 
   // Sample product data
   const products = [
@@ -17,8 +23,9 @@ const ShopPage = () => {
       category: "food",
       rating: 4.8,
       reviews: 124,
-      image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=400&q=80",
-      discount: 29
+      image:
+        "https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=400&q=80",
+      discount: 29,
     },
     {
       id: 2,
@@ -27,7 +34,8 @@ const ShopPage = () => {
       category: "food",
       rating: 4.5,
       reviews: 89,
-      image: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=400&q=80"
+      image:
+        "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=400&q=80",
     },
     {
       id: 3,
@@ -37,8 +45,9 @@ const ShopPage = () => {
       category: "electronics",
       rating: 4.7,
       reviews: 256,
-      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
-      discount: 40
+      image:
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+      discount: 40,
     },
     {
       id: 4,
@@ -47,7 +56,8 @@ const ShopPage = () => {
       category: "fashion",
       rating: 4.3,
       reviews: 67,
-      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80"
+      image:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80",
     },
     {
       id: 5,
@@ -57,8 +67,9 @@ const ShopPage = () => {
       category: "electronics",
       rating: 4.6,
       reviews: 342,
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
-      discount: 20
+      image:
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
+      discount: 20,
     },
     {
       id: 6,
@@ -67,7 +78,8 @@ const ShopPage = () => {
       category: "fashion",
       rating: 4.4,
       reviews: 178,
-      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80"
+      image:
+        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80",
     },
     {
       id: 7,
@@ -76,7 +88,8 @@ const ShopPage = () => {
       category: "food",
       rating: 4.9,
       reviews: 203,
-      image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=400&q=80"
+      image:
+        "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=400&q=80",
     },
     {
       id: 8,
@@ -86,37 +99,42 @@ const ShopPage = () => {
       category: "accessories",
       rating: 4.5,
       reviews: 145,
-      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80",
-      discount: 33
-    }
+      image:
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80",
+      discount: 33,
+    },
   ];
 
   const categories = [
-    { value: 'all', label: 'All Products' },
-    { value: 'food', label: 'Food & Groceries' },
-    { value: 'electronics', label: 'Electronics' },
-    { value: 'fashion', label: 'Fashion' },
-    { value: 'accessories', label: 'Accessories' }
+    { value: "all", label: "All Products" },
+    { value: "food", label: "Food & Groceries" },
+    { value: "electronics", label: "Electronics" },
+    { value: "fashion", label: "Fashion" },
+    { value: "accessories", label: "Accessories" },
   ];
 
   const priceRanges = [
-    { value: 'all', label: 'All Prices' },
-    { value: '0-500', label: 'Under ₹500' },
-    { value: '500-2000', label: '₹500 - ₹2,000' },
-    { value: '2000-5000', label: '₹2,000 - ₹5,000' },
-    { value: '5000+', label: 'Above ₹5,000' }
+    { value: "all", label: "All Prices" },
+    { value: "0-500", label: "Under ₹500" },
+    { value: "500-2000", label: "₹500 - ₹2,000" },
+    { value: "2000-5000", label: "₹2,000 - ₹5,000" },
+    { value: "5000+", label: "Above ₹5,000" },
   ];
 
   // Filter products based on search and filters
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || product.category === selectedCategory;
 
     let matchesPrice = true;
-    if (priceRange !== 'all') {
-      const [min, max] = priceRange.split('-').map(p => p.replace('+', ''));
+    if (priceRange !== "all") {
+      const [min, max] = priceRange.split("-").map((p) => p.replace("+", ""));
       if (max) {
-        matchesPrice = product.price >= parseInt(min) && product.price <= parseInt(max);
+        matchesPrice =
+          product.price >= parseInt(min) && product.price <= parseInt(max);
       } else {
         matchesPrice = product.price >= parseInt(min);
       }
@@ -134,8 +152,12 @@ const ShopPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Shop</h1>
-          <p className="text-gray-600 text-lg">Discover our amazing collection of products</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Shop
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Discover our amazing collection of products
+          </p>
         </div>
 
         {/* Search and Filters */}
@@ -159,7 +181,7 @@ const ShopPage = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none"
             >
-              {categories.map(category => (
+              {categories.map((category) => (
                 <option key={category.value} value={category.value}>
                   {category.label}
                 </option>
@@ -172,7 +194,7 @@ const ShopPage = () => {
               onChange={(e) => setPriceRange(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent outline-none"
             >
-              {priceRanges.map(range => (
+              {priceRanges.map((range) => (
                 <option key={range.value} value={range.value}>
                   {range.label}
                 </option>
@@ -202,8 +224,11 @@ const ShopPage = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map(product => (
-            <div key={product.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group"
+            >
               {/* Product Image */}
               <div className="relative overflow-hidden">
                 <img
@@ -266,13 +291,17 @@ const ShopPage = () => {
         {filteredProducts.length === 0 && (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No products found
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Try adjusting your search or filters
+            </p>
             <button
               onClick={() => {
-                setSearchTerm('');
-                setSelectedCategory('all');
-                setPriceRange('all');
+                setSearchTerm("");
+                setSelectedCategory("all");
+                setPriceRange("all");
               }}
               className="bg-gradient-to-r from-slate-800 to-slate-700 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all"
             >
