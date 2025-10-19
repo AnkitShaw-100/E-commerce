@@ -108,7 +108,7 @@ const MyProfile = () => {
           <div className="relative">
             <div className="absolute -top-3 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-t-xl" />
           </div>
-          <div className="px-6 sm:px-8 py-6 sm:py-8">
+          <div className="px-7 sm:px-10 py-7 sm:py-9">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{profile.name || user?.name || 'User'}</h2>
@@ -122,10 +122,10 @@ const MyProfile = () => {
                   </button>
                 ) : (
                   <div className="flex gap-2">
-                    <button onClick={handleSave} className="inline-flex items-center gap-2 bg-emerald-700 text-white px-4 py-2 rounded-md font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition">
+                    <button onClick={handleSave} className="inline-flex items-center gap-2 bg-emerald-700 text-white px-4 py-2.5 rounded-md font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition">
                       <FiSave size={16} /> Save
                     </button>
-                    <button onClick={handleCancel} className="inline-flex items-center gap-2 bg-white border border-gray-200 text-gray-800 px-4 py-2 rounded-md font-medium hover:bg-gray-50">
+                    <button onClick={handleCancel} className="inline-flex items-center gap-2 bg-white border border-gray-200 text-gray-800 px-4 py-2.5 rounded-md font-medium hover:bg-gray-50">
                       <FiX size={16} /> Cancel
                     </button>
                   </div>
@@ -137,12 +137,7 @@ const MyProfile = () => {
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">Full Name</h3>
                 {isEditing ? (
-                  <input
-                    type="text"
-                    value={editForm.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none"
-                  />
+                  <input type="text" value={editForm.name} onChange={(e) => handleChange('name', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none" />
                 ) : (
                   <div className="px-4 py-2 bg-gray-50 rounded-md text-gray-900">{profile.name}</div>
                 )}
@@ -151,12 +146,7 @@ const MyProfile = () => {
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">Email</h3>
                 {isEditing ? (
-                  <input
-                    type="email"
-                    value={editForm.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none"
-                  />
+                  <input type="email" value={editForm.email} onChange={(e) => handleChange('email', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none" />
                 ) : (
                   <div className="px-4 py-2 bg-gray-50 rounded-md text-gray-900">{profile.email}</div>
                 )}
@@ -165,12 +155,7 @@ const MyProfile = () => {
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">Phone</h3>
                 {isEditing ? (
-                  <input
-                    type="tel"
-                    value={editForm.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none"
-                  />
+                  <input type="tel" value={editForm.phone} onChange={(e) => handleChange('phone', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none" />
                 ) : (
                   <div className="px-4 py-2 bg-gray-50 rounded-md text-gray-900">{profile.phone || 'Not provided'}</div>
                 )}
@@ -179,12 +164,7 @@ const MyProfile = () => {
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">Address</h3>
                 {isEditing ? (
-                  <input
-                    type="text"
-                    value={editForm.address}
-                    onChange={(e) => handleChange('address', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none"
-                  />
+                  <input type="text" value={editForm.address} onChange={(e) => handleChange('address', e.target.value)} className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-emerald-500 outline-none" />
                 ) : (
                   <div className="px-4 py-2 bg-gray-50 rounded-md text-gray-900">{profile.address || 'Not provided'}</div>
                 )}
@@ -199,9 +179,9 @@ const MyProfile = () => {
                 ) : (
                   <div className="space-y-3">
                     {orders.map((o) => (
-                      <div key={o._id} className="bg-white border border-gray-100 rounded-md p-3 shadow-sm flex items-center justify-between hover:shadow-md transform hover:-translate-y-1 transition">
+                      <div key={o._id} className="bg-white border border-gray-100 rounded-md p-3.5 shadow-sm flex items-center justify-between hover:shadow-md transform hover:-translate-y-1 transition">
                         <div className="min-w-0 pr-4">
-                          <div className="text-sm font-semibold text-gray-800 truncate">Order <span className="font-mono text-xs text-gray-500">#{String(o._id).slice(0,8)}</span></div>
+                          <div className="text-sm font-semibold text-gray-800 truncate">Order <span className="font-mono text-xs text-gray-500">#{String(o._id).slice(0, 8)}</span></div>
                           <div className="text-xs text-gray-500">{new Date(o.createdAt).toLocaleString()}</div>
                         </div>
                         <div className="flex items-center gap-4">
