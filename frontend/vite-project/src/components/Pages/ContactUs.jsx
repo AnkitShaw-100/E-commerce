@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 const ContactUs = () => {
+    const { user } = useAuth();
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         message: "",
     });
+
+    useEffect(() => {
+        // If user is logged in, prefill name/email
+        if (user) {
+            setFormData((prev) => ({
+                ...prev,
+                name: user?.name || user?.username || "",
+                email: user?.email || "",
+            }));
+        }
+    }, [user]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,7 +40,7 @@ const ContactUs = () => {
     };
 
     return (
-        <div className="bg-gray-50 pt-16 sm:pt-20 md:pt-24 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="bg-gray-50 pt-16 sm:pt-20 pb-6 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
                 {/* Heading */}
                 <div className="text-center mb-8 sm:mb-10">
@@ -38,12 +52,9 @@ const ContactUs = () => {
                 </div>
 
                 {/* Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                     {/* Contact Form */}
-                    <form
-                        onSubmit={handleSubmit}
-                        className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 space-y-5 sm:space-y-6 border border-gray-100 order-2 lg:order-1"
-                    >
+                    <form onSubmit={handleSubmit} className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 space-y-4 sm:space-y-5 border border-gray-100 order-2 lg:order-1">
                         <div>
                             <label className="block text-gray-800 font-semibold mb-2 text-sm sm:text-base">Name</label>
                             <input
@@ -51,9 +62,10 @@ const ContactUs = () => {
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                required
+                                required={!user}
                                 placeholder="Your Name"
-                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition text-sm sm:text-base"
+                                readOnly={!!user}
+                                className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition text-sm sm:text-base ${user ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                             />
                         </div>
 
@@ -64,9 +76,10 @@ const ContactUs = () => {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                required
+                                required={!user}
                                 placeholder="Your Email"
-                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition text-sm sm:text-base"
+                                readOnly={!!user}
+                                className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition text-sm sm:text-base ${user ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                             />
                         </div>
 
@@ -78,27 +91,27 @@ const ContactUs = () => {
                                 onChange={handleChange}
                                 required
                                 placeholder="Your Message"
-                                rows={5}
-                                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none text-sm sm:text-base"
+                                rows={4}
+                                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none text-sm sm:text-base"
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 w-full text-sm sm:text-base"
+                            className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl shadow-lg w-full text-sm sm:text-base"
                         >
                             Send Message
                         </button>
                     </form>
 
                     {/* Contact Info */}
-                    <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 border border-gray-100 order-1 lg:order-2">
+                    <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-100 order-1 lg:order-2">
                         {/* Image Section */}
                         <div className="relative mb-6 sm:mb-8">
                             <img
                                 src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
                                 alt="Customer Service - Contact Us"
-                                className="rounded-xl sm:rounded-2xl shadow-lg w-full h-40 sm:h-48 object-cover"
+                                className="rounded-xl sm:rounded-2xl shadow-lg w-full h-28 sm:h-36 object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl sm:rounded-2xl"></div>
                             <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-white">
@@ -107,8 +120,8 @@ const ContactUs = () => {
                         </div>
 
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Get in Touch</h2>
-                        <div className="space-y-4 sm:space-y-5">
-                            <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
+                        <div className="space-y-3 sm:space-y-4">
+                            <div className="flex items-center gap-3 sm:gap-4 p-2 sm:p-3 bg-gray-50 rounded-lg sm:rounded-xl">
                                 <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
                                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                         <path d="M3 8l7.89 4.26c.067.036.149.036.22 0L19 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -119,7 +132,7 @@ const ContactUs = () => {
                                     <p className="text-gray-600 text-xs sm:text-sm truncate">ankitshaw6933@gmail.com</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
+                            <div className="flex items-center gap-3 sm:gap-4 p-2 sm:p-3 bg-gray-50 rounded-lg sm:rounded-xl">
                                 <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
                                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                         <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -130,7 +143,7 @@ const ContactUs = () => {
                                     <p className="text-gray-600 text-xs sm:text-sm">+91 12345 67890</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
+                            <div className="flex items-center gap-3 sm:gap-4 p-2 sm:p-3 bg-gray-50 rounded-lg sm:rounded-xl">
                                 <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
                                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                         <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />

@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false); // for tablet compact search
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -33,34 +34,25 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
 
           {/* Logo */}
-          <Link
-            to="/"
-            className="text-2xl font-extrabold flex items-center select-none group cursor-pointer"
-          >
-            <span className="transition-colors duration-300 text-emerald-600 group-hover:text-slate-700">
-              Apni
-            </span>
-            <span className="ml-1 transition-colors duration-300 text-slate-700 group-hover:text-emerald-600">
-              Dukan
-            </span>
+          <Link to="/" className="flex items-center select-none group cursor-pointer" style={{ fontSize: 'clamp(1rem, 2.2vw, 1.5rem)', fontWeight: 800 }}>
+            <span className="text-emerald-600 group-hover:text-slate-700">Apni</span>
+            <span className="ml-1 text-slate-700 group-hover:text-emerald-600">Dukan</span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-10 items-center">
+          {/* Desktop Nav (large screens) */}
+          <div className="hidden lg:flex space-x-10 items-center">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="relative font-semibold text-gray-700 hover:text-emerald-600 tracking-wide transition-colors duration-300 
-                after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-emerald-600 
-                after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
-                hover:after:w-full hover:after:left-0"
+                className="font-semibold text-gray-700 hover:text-emerald-600"
+                style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.125rem)', fontWeight: 600 }}
               >
                 {link.name}
               </Link>
             ))}
 
-            {/* Desktop Search */}
+            {/* Desktop Search (visible on lg+) */}
             <div className="flex items-center bg-gray-200 rounded-xl px-4 py-2 max-w-md flex-1 ml-6">
               <FiSearch className="text-gray-600 mr-3" />
               <input
@@ -73,39 +65,74 @@ export default function Navbar() {
             </div>
           </div>
 
+          {/* Tablet Nav (medium screens) - compact: inline links + toggleable search */}
+          <div className="hidden md:flex lg:hidden items-center space-x-6">
+            <div className="flex items-center gap-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className="text-gray-700 hover:text-emerald-600"
+                  style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.125rem)', fontWeight: 600 }}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* Compact search button */}
+            <div className="relative">
+              <button
+                onClick={() => setSearchOpen((s) => !s)}
+                className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700"
+                aria-label="Toggle search"
+              >
+                <FiSearch />
+              </button>
+              {searchOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-md p-2">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-md outline-none"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Right Side (Cart / Login-Logout / Mobile Menu) */}
           <div className="flex items-center space-x-4">
-            <Link
-              to="/cart"
-              className="text-emerald-600 hover:text-slate-700 text-2xl transition-colors duration-300"
-            >
+            <Link to="/cart" className="text-emerald-600 hover:text-slate-700" style={{ fontSize: 'clamp(1rem, 2.2vw, 1.4rem)' }}>
               <FiShoppingCart />
             </Link>
 
+            {/* Show login/logout inline on md+ */}
             {isAuthenticated ? (
-              <div className="hidden md:flex items-center space-x-3">
+                <div className="hidden md:flex items-center space-x-3">
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition-all duration-300"
+                  className="flex items-center space-x-2 px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold"
+                  style={{ fontSize: 'clamp(0.85rem, 1.2vw, 1rem)' }}
                 >
                   <FiLogOut size={16} />
-                  <span>Logout</span>
+                  <span className="text-sm">Logout</span>
                 </button>
               </div>
             ) : (
               <Link
                 to="/login"
-                className="px-5 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300 hidden md:block"
+                className="px-4 py-2 bg-gradient-to-r from-slate-800 to-slate-700 hover:from-slate-700 hover:to-slate-600 text-white rounded-xl font-semibold shadow-sm hidden md:inline-flex"
+                style={{ fontSize: 'clamp(0.85rem, 1.2vw, 1rem)' }}
               >
                 Login
               </Link>
             )}
 
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden text-3xl text-gray-700 transition-colors duration-300 hover:text-emerald-600"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
+            <button className="md:hidden text-gray-700 hover:text-emerald-600" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" style={{ fontSize: 'clamp(1.2rem, 2.6vw, 2rem)' }}>
               {menuOpen ? <FiX /> : <FiMenu />}
             </button>
           </div>
@@ -131,15 +158,7 @@ export default function Navbar() {
           </div>
 
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className="relative font-semibold text-gray-700 hover:text-emerald-600 transition-colors duration-300 
-              after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-emerald-600 
-              after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
-              hover:after:w-full hover:after:left-0"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link key={link.name} to={link.path} className="font-semibold text-gray-700 hover:text-emerald-600" style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.125rem)', fontWeight: 600 }} onClick={() => setMenuOpen(false)}>
               {link.name}
             </Link>
           ))}

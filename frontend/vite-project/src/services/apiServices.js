@@ -21,8 +21,7 @@ export const authAPI = {
       throw error.response?.data || { message: "Login failed" };
     }
   },
-
-}
+};
 
 // Product API functions
 export const productAPI = {
@@ -62,7 +61,7 @@ export const orderAPI = {
   // Get user orders
   getUserOrders: async () => {
     try {
-      const response = await API.get("/api/orders/user");
+      const response = await API.get("/api/orders/my");
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: "Failed to fetch orders" };
