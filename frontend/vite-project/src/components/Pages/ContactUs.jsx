@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { FaEnvelope, FaUser, FaPaperPlane } from "react-icons/fa";
 
 const ContactUs = () => {
   const { user } = useAuth();
@@ -100,13 +101,26 @@ const ContactUs = () => {
           </p>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-7">
+        {/* Single column: form only (aside removed) */}
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 items-stretch">
           {/* Contact Form */}
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-7 space-y-5 sm:space-y-6 border border-gray-100 order-2 lg:order-1"
+            className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 space-y-6 border border-gray-100 h-full max-w-3xl mx-auto"
           >
+            {/* top icon/header */}
+            <div className="flex flex-col items-center text-center -mt-1">
+              <div className="bg-emerald-100 text-emerald-600 rounded-full p-4 shadow-sm">
+                <FaPaperPlane className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-semibold mt-2">
+                Send us a message
+              </h3>
+              <p className="text-sm text-gray-500 mt-0">
+                We aim to reply within 24 hours
+              </p>
+            </div>
+
             {statusMsg && (
               <div
                 className={`rounded-md px-4 py-2 text-sm font-medium ${
@@ -118,157 +132,102 @@ const ContactUs = () => {
                 {statusMsg.text}
               </div>
             )}
-            <div>
-              <label className="block text-gray-800 font-semibold mb-2 text-sm sm:text-base">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required={!user}
-                placeholder="Your Name"
-                readOnly={!!user}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition text-sm sm:text-base ${
-                  user ? "bg-gray-100 cursor-not-allowed" : ""
-                }`}
-              />
-            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="block text-sm font-semibold text-slate-700">
+                  Name
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400">
+                    <FaUser />
+                  </span>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    required={!user}
+                    readOnly={!!user}
+                    className={`w-full pl-12 pr-4 py-4 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-300 hover:bg-slate-50 ${
+                      user ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
+                    }`}
+                  />
+                </div>
+              </div>
 
-            <div>
-              <label className="block text-gray-800 font-semibold mb-2 text-sm sm:text-base">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required={!user}
-                placeholder="Your Email"
-                readOnly={!!user}
-                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition text-sm sm:text-base ${
-                  user ? "bg-gray-100 cursor-not-allowed" : ""
-                }`}
-              />
+              <div className="space-y-1">
+                <label className="block text-sm font-semibold text-slate-700">
+                  Email
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400">
+                    <FaEnvelope />
+                  </span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@domain.com"
+                    required={!user}
+                    readOnly={!!user}
+                    className={`w-full pl-12 pr-4 py-4 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all duration-300 hover:bg-slate-50 ${
+                      user ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
+                    }`}
+                  />
+                </div>
+              </div>
             </div>
 
             <div>
               <label className="block text-gray-800 font-semibold mb-2 text-sm sm:text-base">
                 Message
               </label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                placeholder="Your Message"
-                rows={4}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none text-sm sm:text-base"
-              />
+              <div className="relative">
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  placeholder="Write your message..."
+                  rows={5}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none text-sm sm:text-base"
+                />
+                <div className="absolute right-3 bottom-3 text-sm text-gray-400">
+                  Max 1000
+                </div>
+              </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={sending}
-              className={`w-full text-sm sm:text-base px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl shadow-lg font-semibold flex items-center justify-center ${
-                sending
-                  ? "bg-emerald-400 text-white cursor-not-allowed"
-                  : "bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white"
-              }`}
-            >
-              {sending ? "Sending..." : "Send Message"}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                type="submit"
+                disabled={sending}
+                className={`flex-1 inline-flex items-center justify-center gap-3 rounded-lg py-3 px-6 text-sm sm:text-base font-semibold shadow-lg text-white ${
+                  sending
+                    ? "bg-emerald-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800"
+                }`}
+              >
+                <FaPaperPlane />
+                <span>{sending ? "Sending..." : "Send Message"}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  setFormData({
+                    name: user?.name || "",
+                    email: user?.email || "",
+                    message: "",
+                  })
+                }
+                className="px-4 py-3 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+              >
+                Reset
+              </button>
+            </div>
           </form>
-
-          {/* Contact Info */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-7 border border-gray-100 order-1 lg:order-2">
-            {/* Image Section */}
-
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
-              Get in Touch
-            </h2>
-            <div className="relative mb-6 sm:mb-8">
-              <img
-                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
-                alt="Customer Service - Contact Us"
-                className="rounded-xl sm:rounded-2xl shadow-lg w-full h-32 sm:h-40 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl sm:rounded-2xl"></div>
-              <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 text-white">
-                <h3 className="text-base sm:text-lg font-bold">
-                  We're Here to Help!
-                </h3>
-              </div>
-            </div>
-            <div className="space-y-4 sm:space-y-5">
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
-                <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
-                  <svg
-                    className="w-4 h-4 sm:w-5 sm:h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M3 8l7.89 4.26c.067.036.149.036.22 0L19 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
-                    Email
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm truncate">
-                    ankitshaw6999@gmail.com
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
-                <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
-                  <svg
-                    className="w-4 h-4 sm:w-5 sm:h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
-                    Phone
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm">
-                    +91 12345 67890
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg sm:rounded-xl">
-                <div className="bg-emerald-100 text-emerald-600 rounded-full p-2 flex-shrink-0">
-                  <svg
-                    className="w-4 h-4 sm:w-5 sm:h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-semibold text-gray-800 text-sm sm:text-base">
-                    Address
-                  </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm">
-                    Kolkata, West Bengal, India
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
