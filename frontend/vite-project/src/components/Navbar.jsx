@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiX, FiSearch, FiLogOut } from "react-icons/fi";
+import { FiShoppingCart, FiMenu, FiX, FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false); // for tablet compact search
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -51,21 +49,9 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-
-            {/* Desktop Search (visible on lg+) */}
-            <div className="flex items-center bg-gray-200 rounded-xl px-4 py-2 max-w-md flex-1 ml-6">
-              <FiSearch className="text-gray-600 mr-3" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent flex-1 outline-none text-gray-700 placeholder-gray-400"
-              />
-            </div>
           </div>
 
-          {/* Tablet Nav (medium screens) - compact: inline links + toggleable search */}
+          {/* Tablet Nav (medium screens) - compact inline links */}
           <div className="hidden md:flex lg:hidden items-center space-x-6">
             <div className="flex items-center gap-4">
               {navLinks.map((link) => (
@@ -78,28 +64,6 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
-            </div>
-
-            {/* Compact search button */}
-            <div className="relative">
-              <button
-                onClick={() => setSearchOpen((s) => !s)}
-                className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-700"
-                aria-label="Toggle search"
-              >
-                <FiSearch />
-              </button>
-              {searchOpen && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-md p-2">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-md outline-none"
-                  />
-                </div>
-              )}
             </div>
           </div>
 
@@ -145,24 +109,11 @@ export default function Navbar() {
           } bg-white shadow-lg border-t border-gray-200`}
       >
         <div className="flex flex-col items-center space-y-6">
-          {/* Mobile Search */}
-          <div className="flex items-center bg-gray-50 rounded-xl px-4 py-2 w-80 max-w-[90%]">
-            <FiSearch className="text-gray-400 mr-3" />
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent flex-1 outline-none text-gray-700 placeholder-gray-400"
-            />
-          </div>
-
           {navLinks.map((link) => (
             <Link key={link.name} to={link.path} className="font-semibold text-gray-700 hover:text-emerald-600" style={{ fontSize: 'clamp(0.95rem, 1.2vw, 1.125rem)', fontWeight: 600 }} onClick={() => setMenuOpen(false)}>
               {link.name}
             </Link>
           ))}
-
 
           {isAuthenticated ? (
             <>
