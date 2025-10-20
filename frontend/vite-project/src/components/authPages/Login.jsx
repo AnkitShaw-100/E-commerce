@@ -143,7 +143,7 @@ const Login = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="form-checkbox h-5 w-5 text-emerald-600 rounded focus:ring-emerald-500"
+                  className="form-checkbox h-5 w-5 accent-emerald-600 rounded focus:ring-emerald-500"
                 />
                 <span>Remember me</span>
               </label>

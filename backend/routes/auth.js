@@ -180,6 +180,12 @@ router.post('/reset-password', async (req, res) => {
     const user = await User.findById(payload.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
+    // Prevent using the same password as before
+    const isSame = await bcrypt.compare(newPassword, user.password);
+    if (isSame) {
+      return res.status(400).json({ message: 'New password must be different from the old password' });
+    }
+
     // Update password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(newPassword, salt);
