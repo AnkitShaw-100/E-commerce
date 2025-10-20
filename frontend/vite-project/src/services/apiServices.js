@@ -90,4 +90,29 @@ export const userAPI = {
       throw error.response?.data || { message: 'Failed to update profile' };
     }
   },
+  // Forgot password flow
+  requestOtp: async (email) => {
+    try {
+      const response = await API.post('/api/auth/forgot', { email });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to request OTP' };
+    }
+  },
+  verifyOtp: async (email, otp) => {
+    try {
+      const response = await API.post('/api/auth/verify-otp', { email, otp });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to verify OTP' };
+    }
+  },
+  resetPassword: async (token, newPassword) => {
+    try {
+      const response = await API.post('/api/auth/reset-password', { token, newPassword });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to reset password' };
+    }
+  },
 };

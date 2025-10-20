@@ -7,6 +7,9 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     phone: { type: String, default: "" },
     address: { type: String, default: "" },
+    // Fields for password reset (OTP)
+    resetOtp: { type: String, default: null },
+    resetOtpExpires: { type: Date, default: null },
     role: {
       type: String,
       enum: ["buyer", "seller", "admin"],

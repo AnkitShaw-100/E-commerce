@@ -10,6 +10,7 @@ import Footer from "../src/components/Footer.jsx";
 import Home from "./components/Pages/Home.jsx";
 import Login from "./components/authPages/Login.jsx";
 import SignUp from "./components/authPages/Signup.jsx";
+import ForgotPassword from "./components/authPages/ForgotPassword.jsx";
 import AboutUs from "./components/Pages/AboutUs.jsx";
 import ContactUs from "./components/Pages/ContactUs.jsx";
 import UserCart from "./components/Pages/userCart.jsx";
@@ -33,6 +34,7 @@ const AppContent = () => {
           <Route path="/cart" element={<UserCart />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/profile" element={<MyProfile />} />
         </Routes>
       </main>
