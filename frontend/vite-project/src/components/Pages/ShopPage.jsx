@@ -1,11 +1,5 @@
-import React, { useState } from "react";
-import {
-  FiSearch,
-  FiFilter,
-  FiHeart,
-  FiShoppingCart,
-  FiStar,
-} from "react-icons/fi";
+import React, { useState, useEffect } from "react";
+import { FiSearch, FiHeart, FiShoppingCart, FiStar } from "react-icons/fi";
 
 const ShopPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,97 +7,10 @@ const ShopPage = () => {
   const [priceRange, setPriceRange] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
 
-  // Sample product data
-  const products = [
-    {
-      id: 1,
-      name: "Premium Olive Oil",
-      price: 499,
-      originalPrice: 699,
-      category: "food",
-      rating: 4.8,
-      reviews: 124,
-      image:
-        "https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=400&q=80",
-      discount: 29,
-    },
-    {
-      id: 2,
-      name: "Organic Tomatoes",
-      price: 299,
-      category: "food",
-      rating: 4.5,
-      reviews: 89,
-      image:
-        "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=400&q=80",
-    },
-    {
-      id: 3,
-      name: "Wireless Headphones",
-      price: 2999,
-      originalPrice: 4999,
-      category: "electronics",
-      rating: 4.7,
-      reviews: 256,
-      image:
-        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
-      discount: 40,
-    },
-    {
-      id: 4,
-      name: "Cotton T-Shirt",
-      price: 899,
-      category: "fashion",
-      rating: 4.3,
-      reviews: 67,
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80",
-    },
-    {
-      id: 5,
-      name: "Smart Watch",
-      price: 15999,
-      originalPrice: 19999,
-      category: "electronics",
-      rating: 4.6,
-      reviews: 342,
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80",
-      discount: 20,
-    },
-    {
-      id: 6,
-      name: "Running Shoes",
-      price: 3499,
-      category: "fashion",
-      rating: 4.4,
-      reviews: 178,
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80",
-    },
-    {
-      id: 7,
-      name: "Coffee Beans",
-      price: 899,
-      category: "food",
-      rating: 4.9,
-      reviews: 203,
-      image:
-        "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=400&q=80",
-    },
-    {
-      id: 8,
-      name: "Laptop Backpack",
-      price: 1999,
-      originalPrice: 2999,
-      category: "accessories",
-      rating: 4.5,
-      reviews: 145,
-      image:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80",
-      discount: 33,
-    },
-  ];
+  // Products fetched from backend
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const categories = [
     { value: "all", label: "All Products" },
@@ -112,6 +19,25 @@ const ShopPage = () => {
     { value: "fashion", label: "Fashion" },
     { value: "accessories", label: "Accessories" },
   ];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("http://localhost:5000/api/products");
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        setError(err.message || "Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const priceRanges = [
     { value: "all", label: "All Prices" },
@@ -217,22 +143,33 @@ const ShopPage = () => {
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">
-            Showing {filteredProducts.length} of {products.length} products
-          </p>
+          {loading ? (
+            <p className="text-gray-600">Loading products...</p>
+          ) : error ? (
+            <p className="text-red-600">Error: {error}</p>
+          ) : (
+            <p className="text-gray-600">
+              Showing {filteredProducts.length} of {products.length} products
+            </p>
+          )}
         </div>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group"
             >
               {/* Product Image */}
               <div className="relative overflow-hidden">
                 <img
-                  src={product.image}
+                  src={
+                    // use first image url if present otherwise placeholder
+                    product.images && product.images.length > 0
+                      ? product.images[0].url
+                      : "https://via.placeholder.com/400x300?text=No+Image"
+                  }
                   alt={product.name}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />

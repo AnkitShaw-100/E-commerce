@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js"; // ✅ added to fetch full user details from DB
 
-function auth(req, res, next) {
+async function auth(req, res, next) {
   // Jab frontend se req ata hai toh usme ek Authorization header hota hai
   // Niche wale line m humlog Authorization m jo bhi hai usko extarct krke authHeader m rakh rahe hai
   const authHeader = req.header("Authorization");
@@ -20,11 +21,15 @@ function auth(req, res, next) {
     // req.user m save kar rahe hai
     req.user = decoded;
 
+    // ✅ New line: Fetch full user details (for role checking)
+    req.user = await User.findById(decoded.id).select("-password");
+
     // aab hum log ka kaam khtm ho gaya hai middleware ko agge bhadne bol rahe hai
     next();
   } catch (error) {
     res.status(401).json({ message: "Token is not valid" });
   }
 }
+
 
 export default auth;
