@@ -164,12 +164,22 @@ const ShopPage = () => {
               {/* Product Image */}
               <div className="relative overflow-hidden">
                 <img
-                  src={
-                    // use first image url if present otherwise placeholder
-                    product.images && product.images.length > 0
-                      ? product.images[0].url
-                      : "https://via.placeholder.com/400x300?text=No+Image"
-                  }
+                  src={(() => {
+                    const imgs = product?.images || [];
+                    if (imgs.length > 0) {
+                      // Prefer a Cloudinary image (has publicId). If none, use the latest added image.
+                      const cloudImg = imgs.find(
+                        (i) => i && i.publicId && i.url
+                      );
+                      if (cloudImg?.url) return cloudImg.url;
+                      const last = imgs[imgs.length - 1];
+                      if (last?.url) return last.url;
+                    }
+                    return (
+                      product?.image ||
+                      "https://placehold.co/400x300?text=No+Image"
+                    );
+                  })()}
                   alt={product.name}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -227,7 +237,6 @@ const ShopPage = () => {
         {/* No Results */}
         {filteredProducts.length === 0 && (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               No products found
             </h3>

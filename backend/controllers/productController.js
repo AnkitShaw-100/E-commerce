@@ -111,36 +111,80 @@ export const updateProduct = async (req, res) => {
         .json({ message: "Not authorized to update this product" });
     }
 
-    // Handle new image upload
-    if (req.file) {
-      // Delete old image from Cloudinary
-      if (product.images && product.images.publicId) {
-        await deleteImageFromCloudinary(product.images.publicId);
-      }
+    // Accept removeImagePublicIds as array or comma-separated string
+    const { removeImagePublicIds } = req.body;
+    if (removeImagePublicIds) {
+      const toRemove = Array.isArray(removeImagePublicIds)
+        ? removeImagePublicIds
+        : String(removeImagePublicIds)
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
 
-      // Upload new image
+      if (toRemove.length > 0 && Array.isArray(product.images)) {
+        // Delete from Cloudinary and from document
+        for (const pid of toRemove) {
+          try {
+            await deleteImageFromCloudinary(pid);
+          } catch (_) {}
+        }
+        product.images = product.images.filter(
+          (img) => !img.publicId || !toRemove.includes(img.publicId)
+        );
+      }
+    }
+
+    // Handle new image upload via file
+    if (req.file) {
       const uploadResult = await uploadImageToCloudinary(
         req.file.path,
         "products"
       );
+      if (!uploadResult.success) {
+        return res
+          .status(400)
+          .json({ message: "Image upload failed", error: uploadResult.error });
+      }
+      if (!Array.isArray(product.images)) product.images = [];
+      product.images.push({
+        url: uploadResult.url,
+        publicId: uploadResult.publicId,
+      });
+    }
 
-      if (uploadResult.success) {
-        req.body.images = {
-          url: uploadResult.url,
-          publicId: uploadResult.publicId,
-        };
+    // Handle images provided as URLs in body (string or array)
+    if (req.body.images) {
+      const incoming = Array.isArray(req.body.images)
+        ? req.body.images
+        : [req.body.images];
+      if (!Array.isArray(product.images)) product.images = [];
+      for (const img of incoming) {
+        if (typeof img === "string" && img.trim()) {
+          product.images.push({ url: img.trim(), publicId: null });
+        }
+      }
+      // prevent Mongoose from trying to set images to a string/array directly
+      delete req.body.images;
+    }
+
+    // Update other mutable fields
+    const allowed = [
+      "name",
+      "description",
+      "price",
+      "stock",
+      "category",
+      "brand",
+    ];
+    for (const key of allowed) {
+      if (req.body[key] !== undefined) {
+        product[key] = req.body[key];
       }
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const saved = await product.save();
 
-    res.json({
-      message: "Product updated successfully",
-      product: updatedProduct,
-    });
+    res.json({ message: "Product updated successfully", product: saved });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -166,9 +210,15 @@ export const deleteProduct = async (req, res) => {
         .json({ message: "Not authorized to delete this product" });
     }
 
-    // Delete image from Cloudinary
-    if (product.images && product.images.publicId) {
-      await deleteImageFromCloudinary(product.images.publicId);
+    // Delete all images from Cloudinary
+    if (product.images && Array.isArray(product.images)) {
+      for (const img of product.images) {
+        if (img && img.publicId) {
+          try {
+            await deleteImageFromCloudinary(img.publicId);
+          } catch (_) {}
+        }
+      }
     }
 
     await Product.findByIdAndDelete(id);
