@@ -25,6 +25,15 @@ export const authAPI = {
 
 // Product API functions
 export const productAPI = {
+  // Add new product
+  addProduct: async (productData) => {
+    try {
+      const response = await API.post("/api/products/addProduct", productData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: "Failed to add product" };
+    }
+  },
   // Get all products
   getAllProducts: async () => {
     try {

@@ -348,6 +348,12 @@ const MyProfile = () => {
                     <h4 className="text-sm font-semibold text-gray-800 mb-2">
                       Your Listed Products
                     </h4>
+                    <button
+                      onClick={() => (window.location.href = "/add-product")}
+                      className="mb-4 w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-4 py-2 rounded-md font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition"
+                    >
+                      + Add Product
+                    </button>
                     <div className="space-y-3">
                       {productsLoading ? (
                         <div className="text-sm text-gray-500">

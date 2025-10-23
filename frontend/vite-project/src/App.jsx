@@ -17,6 +17,7 @@ import {
 import Navbar from "../src/components/Navbar.jsx";
 import Footer from "../src/components/Footer.jsx";
 import Home from "./components/Pages/Home.jsx";
+import AddProduct from "./components/Pages/AddProduct.jsx";
 import Login from "./components/authPages/Login.jsx";
 import SignUp from "./components/authPages/Signup.jsx";
 import ForgotPassword from "./components/authPages/ForgotPassword.jsx";
@@ -38,6 +39,7 @@ const AppContent = () => {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/add-product" element={<AddProduct />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />

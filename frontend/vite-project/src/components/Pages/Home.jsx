@@ -5,7 +5,6 @@ import {
   FiTruck,
   FiShield,
   FiHeadphones,
-  FiStar,
 } from "react-icons/fi";
 
 const Home = () => {
