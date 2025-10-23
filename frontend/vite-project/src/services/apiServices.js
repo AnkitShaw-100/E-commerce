@@ -74,45 +74,49 @@ export const userAPI = {
   // Get current user's profile
   getProfile: async () => {
     try {
-      const response = await API.get('/api/users/me');
+      const response = await API.get("/api/users/me");
+      console.log(response);
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Failed to fetch profile' };
+      throw error.response?.data || { message: "Failed to fetch profile" };
     }
   },
 
   // Update current user's profile
   updateProfile: async (payload) => {
     try {
-      const response = await API.put('/api/users/me', payload);
+      const response = await API.put("/api/users/me", payload);
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Failed to update profile' };
+      throw error.response?.data || { message: "Failed to update profile" };
     }
   },
   // Forgot password flow
   requestOtp: async (email) => {
     try {
-      const response = await API.post('/api/auth/forgot', { email });
+      const response = await API.post("/api/auth/forgot", { email });
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Failed to request OTP' };
+      throw error.response?.data || { message: "Failed to request OTP" };
     }
   },
   verifyOtp: async (email, otp) => {
     try {
-      const response = await API.post('/api/auth/verify-otp', { email, otp });
+      const response = await API.post("/api/auth/verify-otp", { email, otp });
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Failed to verify OTP' };
+      throw error.response?.data || { message: "Failed to verify OTP" };
     }
   },
   resetPassword: async (token, newPassword) => {
     try {
-      const response = await API.post('/api/auth/reset-password', { token, newPassword });
+      const response = await API.post("/api/auth/reset-password", {
+        token,
+        newPassword,
+      });
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Failed to reset password' };
+      throw error.response?.data || { message: "Failed to reset password" };
     }
   },
 };

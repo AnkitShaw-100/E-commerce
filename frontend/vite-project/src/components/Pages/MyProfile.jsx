@@ -9,7 +9,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
-import { orderAPI, userAPI } from "../../services/apiServices";
+import { orderAPI, userAPI, productAPI } from "../../services/apiServices";
 
 // small notice
 const Notice = ({ type = "info", children }) => (
@@ -39,6 +39,9 @@ const MyProfile = () => {
   const [notice, setNotice] = useState(null);
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [dbRole, setDbRole] = useState(null);
 
   useEffect(() => {
     // Fetch profile from backend
@@ -60,6 +63,7 @@ const MyProfile = () => {
           phone: serverUser.phone || f.phone,
           address: serverUser.address || f.address,
         }));
+        setDbRole(serverUser.role || null);
       } catch {
         console.warn("Could not fetch profile from server");
       }
@@ -78,8 +82,26 @@ const MyProfile = () => {
         setOrdersLoading(false);
       }
     };
+    // fetch products if seller
+    const fetchProducts = async () => {
+      if (!user || user.role !== "seller") return;
+      setProductsLoading(true);
+      try {
+        const all = await productAPI.getAllProducts();
+        // filter only products listed by this seller
+        const mine = (all || []).filter(
+          (p) => p.seller === user.id || p.seller?._id === user.id
+        );
+        setProducts(mine);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally {
+        setProductsLoading(false);
+      }
+    };
     fetchProfile();
     fetchOrders();
+    fetchProducts();
   }, [user]);
 
   const handleEdit = () => {
@@ -316,46 +338,104 @@ const MyProfile = () => {
 
               <div className="md:col-span-1">
                 <h4 className="text-sm font-semibold text-gray-800 mb-3">
-                  Your Orders
+                  Role:{" "}
+                  <span className="font-mono text-xs text-emerald-700">
+                    {dbRole || "unknown"}
+                  </span>
                 </h4>
-                <div className="space-y-3">
-                  {ordersLoading ? (
-                    <div className="text-sm text-gray-500">
-                      Loading orders...
-                    </div>
-                  ) : orders.length === 0 ? (
-                    <div className="text-sm text-gray-500">
-                      You have no orders yet.
-                    </div>
-                  ) : (
-                    orders.map((o) => (
-                      <div
-                        key={o._id}
-                        className="bg-white border border-gray-100 rounded-md p-3.5 shadow-sm flex items-center justify-between hover:shadow-md transform hover:-translate-y-1 transition"
-                      >
-                        <div className="min-w-0 pr-4">
-                          <div className="text-sm font-semibold text-gray-800 truncate">
-                            Order{" "}
-                            <span className="font-mono text-xs text-gray-500">
-                              #{String(o._id).slice(0, 8)}
-                            </span>
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {new Date(o.createdAt).toLocaleString()}
-                          </div>
+                {dbRole === "seller" ? (
+                  <>
+                    <h4 className="text-sm font-semibold text-gray-800 mb-2">
+                      Your Listed Products
+                    </h4>
+                    <div className="space-y-3">
+                      {productsLoading ? (
+                        <div className="text-sm text-gray-500">
+                          Loading products...
                         </div>
-                        <div className="flex items-center gap-4">
-                          <div className="text-sm text-gray-700">
-                            {o.orderItems?.length || 0} items
-                          </div>
-                          <div className="text-sm font-semibold text-gray-900">
-                            ₹{o.totalPrice}
-                          </div>
+                      ) : products.length === 0 ? (
+                        <div className="text-sm text-gray-500">
+                          You have no listed products yet.
                         </div>
-                      </div>
-                    ))
-                  )}
-                </div>
+                      ) : (
+                        products.map((p) => (
+                          <div
+                            key={p._id}
+                            className="bg-white border border-gray-100 rounded-md p-3.5 shadow-sm flex items-center justify-between hover:shadow-md transform hover:-translate-y-1 transition"
+                          >
+                            <div className="min-w-0 pr-4">
+                              <div className="text-sm font-semibold text-gray-800 truncate">
+                                {p.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                ₹{p.price}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={
+                                  p.images?.[0]?.url ||
+                                  p.image ||
+                                  "https://placehold.co/40x40?text=No+Image"
+                                }
+                                alt={p.name}
+                                className="w-10 h-10 object-cover rounded"
+                              />
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </>
+                ) : dbRole === "buyer" ? (
+                  <>
+                    <h4 className="text-sm font-semibold text-gray-800 mb-2">
+                      Your Orders
+                    </h4>
+                    <div className="space-y-3">
+                      {ordersLoading ? (
+                        <div className="text-sm text-gray-500">
+                          Loading orders...
+                        </div>
+                      ) : orders.length === 0 ? (
+                        <div className="text-sm text-gray-500">
+                          You have no orders yet.
+                        </div>
+                      ) : (
+                        orders.map((o) => (
+                          <div
+                            key={o._id}
+                            className="bg-white border border-gray-100 rounded-md p-3.5 shadow-sm flex items-center justify-between hover:shadow-md transform hover:-translate-y-1 transition"
+                          >
+                            <div className="min-w-0 pr-4">
+                              <div className="text-sm font-semibold text-gray-800 truncate">
+                                Order{" "}
+                                <span className="font-mono text-xs text-gray-500">
+                                  #{String(o._id).slice(0, 8)}
+                                </span>
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {new Date(o.createdAt).toLocaleString()}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                              <div className="text-sm text-gray-700">
+                                {o.orderItems?.length || 0} items
+                              </div>
+                              <div className="text-sm font-semibold text-gray-900">
+                                ₹{o.totalPrice}
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-sm text-gray-500">
+                    No role info available.
+                  </div>
+                )}
               </div>
             </div>
           </div>

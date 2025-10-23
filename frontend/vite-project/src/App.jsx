@@ -1,3 +1,12 @@
+import { useEffect } from "react";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -24,6 +33,7 @@ const AppContent = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       {!hideNavbarAndFooter && <Navbar />}
       <main className="flex-1">
         <Routes>
