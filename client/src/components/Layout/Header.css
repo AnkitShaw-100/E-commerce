@@ -1,0 +1,82 @@
+/* Header/Navbar Styling */
+
+.navbar {
+    padding: 1rem 0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem !important;
+    letter-spacing: 0.5px;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    color: #ffffff !important;
+    font-weight: 600;
+    border-bottom: 3px solid #ffffff;
+    padding-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        margin-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1rem;
+    }
+
+    .nav-link {
+        padding: 0.5rem 0 !important;
+    }
+
+    .nav-link.active {
+        border-bottom: none;
+        border-left: 3px solid #ffffff;
+        padding-left: 0.5rem;
+        padding-bottom: 0.25rem;
+    }
+}
+
+/* Dark Navbar Theme */
+.bg-dark {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+}
+
+.navbar-dark .navbar-brand {
+    color: #fff !important;
+}
+
+.navbar-dark .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.navbar-dark .nav-link:hover {
+    color: #ffffff !important;
+}
+
+/* Gap between items */
+.gap-3 {
+    gap: 1.5rem !important;
+}
+
+/* Smooth transitions */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
