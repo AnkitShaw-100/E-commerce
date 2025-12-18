@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, LayoutGrid, User } from 'lucide-react';
 import './Header.css';
 
 const Header = () => {
@@ -26,7 +26,7 @@ const Header = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0 gap-3">
                             <li className="nav-item">
-                                <NavLink 
+                                <NavLink
                                     className={({ isActive }) => `nav-link ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
                                     to="/"
                                 >
@@ -35,25 +35,17 @@ const Header = () => {
                             </li>
 
                             <li className="nav-item">
-                                <NavLink 
-                                    className={({ isActive }) => `nav-link ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
-                                    to="/register"
+                                <NavLink
+                                    className={({ isActive }) => `nav-link d-flex align-items-center gap-2 ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
+                                    to="/categories"
                                 >
-                                    Register
+                                    <LayoutGrid size={18} />
+                                    Categories
                                 </NavLink>
                             </li>
 
                             <li className="nav-item">
-                                <NavLink 
-                                    className={({ isActive }) => `nav-link ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
-                                    to="/login"
-                                >
-                                    Login
-                                </NavLink>
-                            </li>
-
-                            <li className="nav-item">
-                                <NavLink 
+                                <NavLink
                                     className={({ isActive }) => `nav-link d-flex align-items-center gap-2 ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
                                     to="/cart"
                                 >
@@ -61,6 +53,27 @@ const Header = () => {
                                     Cart
                                 </NavLink>
                             </li>
+                            <li className="nav-item dropdown">
+                                <button
+                                    className="nav-link dropdown-toggle text-white d-flex align-items-center gap-2 border-0 bg-transparent"
+                                    id="accountDropdown"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <User size={18} />
+                                    Account
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
+                                    <li>
+                                        <NavLink className="dropdown-item" to="/register">Register</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink className="dropdown-item" to="/login">Login</NavLink>
+                                    </li>
+                                </ul>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
