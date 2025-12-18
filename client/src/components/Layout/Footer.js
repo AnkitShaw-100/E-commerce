@@ -95,7 +95,7 @@ const Footer = () => {
               &copy; 2025 Apni Dukan. All rights reserved.
             </p>
             <p className="text-muted mb-0">
-              <a href="#privacy" className="footer-link\">Privacy Policy</a> | 
+              <a href="#privacy" className="footer-link\">Privacy Policy</a> |
               <a href="#terms" className="footer-link\">Terms & Conditions</a>
             </p>
           </div>

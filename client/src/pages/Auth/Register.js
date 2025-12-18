@@ -16,7 +16,7 @@ const Register = () => {
     // Form validation and submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Validation rules
         if (!name || name.trim() === "") {
             toast.error("Name is required");
