@@ -5,7 +5,7 @@ import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer className="footer bg-dark text-white mt-5 pt-5">
+    <footer className="footer bg-dark text-white pt-5">
       <div className="container-fluid px-5">
         <div className="row mb-4 g-4">
           {/* About Section */}
