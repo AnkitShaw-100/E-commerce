@@ -1,9 +1,24 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart, LayoutGrid, User } from 'lucide-react';
+import { toast } from 'react-toastify';
 import './Header.css';
+import { useAuth } from '../../context/auth';
 
 const Header = () => {
+    const [auth, setAuth] = useAuth();
+    const navigate = useNavigate();
+
+    // Logout function
+    const handleLogout = () => {
+        setAuth({
+            user: null,
+            token: ''
+        });
+        localStorage.removeItem('auth');
+        toast.success('Logged out successfully');
+        navigate('/');
+    };
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -53,27 +68,50 @@ const Header = () => {
                                     Cart
                                 </NavLink>
                             </li>
-                            <li className="nav-item dropdown">
-                                <button
-                                    className="nav-link dropdown-toggle text-white d-flex align-items-center gap-2 border-0 bg-transparent"
-                                    id="accountDropdown"
-                                    type="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <User size={18} />
-                                    Account
-                                </button>
-                                <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
-                                    <li>
-                                        <NavLink className="dropdown-item" to="/register">Register</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink className="dropdown-item" to="/login">Login</NavLink>
-                                    </li>
-                                </ul>
-                            </li>
 
+                            {!auth.user ? (<>
+                                <li className="nav-item dropdown">
+                                    <button
+                                        className="nav-link dropdown-toggle text-white d-flex align-items-center gap-2 border-0 bg-transparent"
+                                        id="accountDropdown"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        <User size={18} />
+                                        Account
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
+                                        <li>
+                                            <NavLink className="dropdown-item" to="/register">Register</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink className="dropdown-item" to="/login">Login</NavLink>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </>) : (<>
+                                <li className="nav-item dropdown">
+                                    <button
+                                        className="nav-link dropdown-toggle text-white d-flex align-items-center gap-2 border-0 bg-transparent"
+                                        id="accountDropdown"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        <User size={18} />
+                                        Account
+                                    </button>
+                                    <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
+                                        <li>
+                                            <NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink>
+                                        </li>
+                                        <li>
+                                            <button className="dropdown-item" onClick={handleLogout} style={{ border: 'none', background: 'none', cursor: 'pointer', textAlign: 'left' }}>Logout</button>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </>)}
                         </ul>
                     </div>
                 </div>

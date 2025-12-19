@@ -16,7 +16,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

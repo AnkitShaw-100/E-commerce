@@ -4,10 +4,13 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import "./Login.css";
+import { useAuth } from "../../context/auth.js";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [auth, setAuth] = useAuth();
+
     const navigate = useNavigate();
 
     // Form validation and submission
@@ -41,10 +44,19 @@ const Login = () => {
         // If all validations pass, submit
         try {
             const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/login`, { email, password });
+            console.log('Login Response:', res.data);
             if (res.data.success) {
                 toast.success(res.data.message);
-                // Save auth token or user data if needed
-                setTimeout(() => navigate('/'), 2000);
+                setAuth({
+                    user: res.data.user,
+                    token: res.data.token
+                });
+                localStorage.setItem('auth', JSON.stringify({
+                    user: res.data.user,
+                    token: res.data.token
+                }));
+                console.log('Navigating to home...');
+                navigate('/');
             }
             else {
                 toast.error(res.data.message);
