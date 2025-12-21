@@ -11,6 +11,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [Answer, setAnswer] = useState("");
     const navigate = useNavigate();
 
     // Form validation and submission
@@ -86,9 +87,14 @@ const Register = () => {
             return;
         }
 
+        if (!Answer || Answer.trim().length < 2) {
+            toast.error("Answer must be at least 2 characters");
+            return;
+        }
+
         // If all validations pass, submit
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, { name, email, password, phone, address });
+            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, { name, email, password, phone, address, Answer });
             if (res.data.success) {
                 toast.success(res.data.message);
                 setTimeout(() => navigate('/login'), 1000);
@@ -177,9 +183,24 @@ const Register = () => {
                             />
                         </div>
 
-                        <button type="submit" className="register-btn">
-                            Register Now
-                        </button>
+                        {/* Answer */}
+                        <div className="form-group">
+                            <label htmlFor="Answer">Answer</label>
+                            <input
+                                id="Answer"
+                                type="text"
+                                value={Answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                                placeholder="What is your pet name?"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-actions">
+                            <button type="submit" className="register-btn">
+                                Register Now
+                            </button>
+                        </div>
                     </form>
 
                     <div className="register-footer">

@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
         maxlength: [100, "Address must not exceed 100 characters"],
         match: [/^[a-zA-Z\s,.\-]+$/, "Address must contain only letters and basic punctuation"]
     },
+    Answer: {
+        type: String,
+        required: [true, "Answer is required"],
+        trim: true,
+        minlength: [2, "Answer must be at least 2 characters"],
+        maxlength: [100, "Answer must not exceed 100 characters"]
+    },
     role: {
         type: Number,
         default: 0
