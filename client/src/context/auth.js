@@ -10,8 +10,9 @@ const AuthProvider = ({ children }) => {
         token: "",
     });
 
-    // Default axios
-    axios.defaults.headers.common['Authorization'] = auth?.token;
+    // Default axios base URL and auth header
+    axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:8080";
+    axios.defaults.headers.common['Authorization'] = auth?.token ? `Bearer ${auth.token}` : '';
     useEffect(() => {
         const data = localStorage.getItem('auth')
         if (data) {

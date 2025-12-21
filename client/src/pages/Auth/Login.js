@@ -43,7 +43,7 @@ const Login = () => {
 
         // If all validations pass, submit
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/login`, { email, password });
+            const res = await axios.post('/api/v1/auth/login', { email, password });
             console.log('Login Response:', res.data);
             if (res.data.success) {
                 toast.success(res.data.message);

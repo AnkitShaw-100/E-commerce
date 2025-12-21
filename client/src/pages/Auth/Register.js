@@ -94,7 +94,7 @@ const Register = () => {
 
         // If all validations pass, submit
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`, { name, email, password, phone, address, Answer });
+            const res = await axios.post('/api/v1/auth/register', { name, email, password, phone, address, Answer });
             if (res.data.success) {
                 toast.success(res.data.message);
                 setTimeout(() => navigate('/login'), 1000);
