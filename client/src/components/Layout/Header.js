@@ -104,7 +104,7 @@ const Header = () => {
                                     </button>
                                     <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
                                         <li>
-                                            <NavLink className="dropdown-item" to="/dashboard">Dashboard</NavLink>
+                                            <NavLink className="dropdown-item" to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}>Dashboard</NavLink>
                                         </li>
                                         <li>
                                             <button className="dropdown-item" onClick={handleLogout} style={{ border: 'none', background: 'none', cursor: 'pointer', textAlign: 'left' }}>Logout</button>
