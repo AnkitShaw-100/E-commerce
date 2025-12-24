@@ -7,7 +7,10 @@ import PageNotFound from "./pages/PageNotFound";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
-import Dashboard from "./pages/user/Dashboard";
+
+import UserDashboard from "./pages/user/UserDashboard";
+import UserProfile from "./pages/user/UserProfile";
+import UserOrders from "./pages/user/UserOrders";
 import PrivateRoute from "./components/Routes/Private";
 import AdminRoute from "./components/Routes/AdminRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
@@ -28,9 +31,14 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
 
 
-      {/* User Dashboard Route */}
+
+      {/* User Dashboard Route and subpages (nested, like admin) */}
       <Route path="/dashboard/user" element={<PrivateRoute />}>
-        <Route index element={<Dashboard />} />
+        <Route element={<UserDashboard />}>
+          <Route index element={<UserProfile />} />
+          <Route path="profile" element={<UserProfile />} />
+          <Route path="orders" element={<UserOrders />} />
+        </Route>
       </Route>
 
       {/* Admin Dashboard Route and subpages (nested) */}

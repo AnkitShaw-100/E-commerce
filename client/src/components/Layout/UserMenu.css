@@ -1,0 +1,50 @@
+.user-menu {
+    margin: 0 0 2rem 0;
+    padding: 1.5rem 0 0.5rem 0;
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.user-menu .list-group {
+    max-width: 260px;
+    margin: 0 auto;
+    box-shadow: none;
+    border-radius: 8px;
+    overflow: hidden;
+    background: transparent;
+}
+
+.user-menu-tab {
+    font-size: 1.08rem;
+    padding: 1rem 1.2rem;
+    border: none;
+    text-align: left;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s, transform 0.2s, background 0.2s, color 0.2s;
+    outline: none !important;
+}
+
+.user-menu-tab:hover {
+    background: #111 !important;
+    color: #fff !important;
+    cursor: pointer;
+}
+
+.user-menu-tab.active {
+    outline: none !important;
+    box-shadow: 0 6px 24px rgba(34, 34, 34, 0.18);
+    background: #000 !important;
+    color: #fff !important;
+    z-index: 2;
+}
+
+.user-menu .list-group-item.active,
+.user-menu .list-group-item:focus,
+.user-menu .list-group-item:hover {
+    background: #222;
+    color: #fff;
+    text-decoration: none;
+}
