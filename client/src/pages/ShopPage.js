@@ -13,6 +13,7 @@ const ShopPage = () => {
     const fetchProducts = async () => {
       try {
         const { data } = await axios.get('/api/v1/product/get-products');
+        console.log(data)
         setProducts(data.products || []);
       } catch (err) {
         setError('Failed to load products');
@@ -21,19 +22,27 @@ const ShopPage = () => {
     fetchProducts();
   }, []);
 
-  const getImageUrl = (photo) => {
-    if (!photo || !photo.data) return 'https://via.placeholder.com/300x220?text=No+Image';
-    const uint8Array = new Uint8Array(photo.data.data);
-    const blob = new Blob([uint8Array], { type: photo.contentType });
-    return URL.createObjectURL(blob);
-  };
+  // Get product image URL from backend endpoint
+     console.log("products",products)
+
+    const getImageUrl = (photo) => {
+        if (!photo || !photo.data || !photo.data.data) return '';
+        const uint8Array = new Uint8Array(photo.data.data);
+        const blob = new Blob([uint8Array], {
+            type: photo.contentType,
+        });
+        const imageUrl = URL.createObjectURL(blob);
+        return imageUrl;
+    };
 
   // Filter products by selected categories and price
   const filteredProducts = products.filter(prod => {
     let categoryMatch = true;
     let priceMatch = true;
     if (selectedCategories.length > 0) {
-      categoryMatch = selectedCategories.includes(prod.category?._id || prod.category);
+      categoryMatch = selectedCategories.includes(
+        prod.category?._id || prod.category
+      );
     }
     if (selectedPrice) {
       const [min, max] = selectedPrice.split('-').map(Number);
@@ -61,15 +70,13 @@ const ShopPage = () => {
               {filteredProducts.map(prod => (
                 <div key={prod._id} className="col-lg-4 col-md-6 col-sm-12">
                   <div className="card h-100 shadow-sm" style={{ minHeight: '370px', maxWidth: '100%' }}>
-                    {prod.photo && (
-                      <img
-                        src={getImageUrl(prod.photo)}
-                        alt={prod.name}
-                        className="card-img-top"
-                        style={{ objectFit: 'cover', height: '200px', width: '100%', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
-                        onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x200?text=No+Image'; }}
-                      />
-                    )}
+                    <img
+                      src={getImageUrl(prod.photo)}
+                      alt={prod.name}
+                      className="card-img-top"
+                      style={{ objectFit: 'cover', height: '200px', width: '100%', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}
+                      onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/300x200?text=No+Image'; }}
+                    />
                     <div className="card-body d-flex flex-column justify-content-between">
                       <div>
                         <h5 className="card-title fw-bold mb-2">{prod.name}</h5>

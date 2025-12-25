@@ -33,7 +33,8 @@ const CreateProduct = () => {
     const fetchCategories = async () => {
         try {
             const { data } = await axios.get("/api/v1/category/get-category");
-            setCategories(data.categories || []);
+            console.log(data.category)
+            setCategories(data.category || []);
         } catch (err) {
             setError("Failed to load categories");
         }
@@ -141,6 +142,7 @@ const CreateProduct = () => {
             setError(err.response?.data?.message || "Error deleting product");
         }
     };
+    console.log("products",products)
 
     const getImageUrl = (photo) => {
         if (!photo || !photo.data || !photo.data.data) return '';

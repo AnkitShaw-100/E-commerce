@@ -12,7 +12,7 @@ import cors from 'cors';
 dotenv.config();
 
 // Connect DB 
-connectDB();
+await connectDB();
 
 // Rest object
 const app = express();

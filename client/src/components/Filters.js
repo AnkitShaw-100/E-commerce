@@ -47,6 +47,13 @@ const Filters = ({ selectedCategories, setSelectedCategories, selectedPrice, set
             <label className="form-check-label" htmlFor={`cat-${cat._id}`}>{cat.name}</label>
           </div>
         ))}
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-secondary mt-2"
+          onClick={() => setSelectedCategories([])}
+        >
+          Reset Category
+        </button>
       </div>
       <div className="mb-4">
         <h5 className="fw-bold mb-2">Filter by Price</h5>
@@ -64,6 +71,13 @@ const Filters = ({ selectedCategories, setSelectedCategories, selectedPrice, set
             <label className="form-check-label" htmlFor={`price-${range.value}`}>{range.label}</label>
           </div>
         ))}
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-secondary mt-2"
+          onClick={() => setSelectedPrice("")}
+        >
+          Reset Price
+        </button>
       </div>
     </div>
   );

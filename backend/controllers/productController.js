@@ -31,7 +31,7 @@ export const createProductController = async (req, res) => {
         if (!photo) {
             return res.status(400).send({ message: "Product photo is required" });
         }
-        if (photo.size > 25 * 1024 * 1024) { // 25MB
+        if (photo.size > 4 * 1024 * 1024) { // 25MB
             return res.status(400).send({ message: "Photo should be less than 25MB" });
         }
 
@@ -116,10 +116,11 @@ export const updateProductController = async (req, res) => {
 // Get all products
 export const getAllProductsController = async (req, res) => {
     try {
-        const products = await productModel.find({})
-            .select('name description category shipping photo')
-            .populate('category');
-        res.status(200).send({
+        // Only fetch fields needed for the card, NOT photo data
+        const products = await productModel.find()
+            .select('name description category shipping price slug photo')
+            .populate('category', 'name');
+        res.status(200).json({
             success: true,
             message: 'All Products List',
             products
