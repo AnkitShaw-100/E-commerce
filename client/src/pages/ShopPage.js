@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/cart';
 import axios from 'axios';
 import Layout from '../components/Layout/Layout';
 import Filters from '../components/Filters';
@@ -8,6 +10,8 @@ const ShopPage = () => {
   const [error, setError] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState("");
+  const { cart, setCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -83,6 +87,27 @@ const ShopPage = () => {
                         <p className="card-text mb-1">{prod.category?.name || '-'}</p>
                         <p className="card-text small mb-2">{prod.description}</p>
                         <p className="card-text small mb-2">{prod.shipping ? 'Shipping Available' : 'No Shipping'}</p>
+                      </div>
+                      <div className="d-flex justify-content-between mt-3">
+                        <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => navigate(`/product/${prod.slug || prod._id}`)}
+                        >
+                          View More
+                        </button>
+                        <button
+                          className="btn btn-success btn-sm ms-2"
+                          onClick={() => {
+                            setCart(prev => {
+                              const exists = prev.find(item => item._id === prod._id);
+                              if (exists) return prev;
+                              return [...prev, { ...prod, quantity: 1 }];
+                            });
+                            navigate('/cart');
+                          }}
+                        >
+                          Add to Cart
+                        </button>
                       </div>
                     </div>
                   </div>

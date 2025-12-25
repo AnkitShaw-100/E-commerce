@@ -152,3 +152,20 @@ export const forgotPasswordController = async (req, res) => {
         });
     }
 };
+
+// Get all users (admin only, no password)
+export const getAllUsersController = async (req, res) => {
+    try {
+        const users = await userModel.find({}, '-password');
+        res.status(200).send({
+            success: true,
+            users
+        });
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'Error fetching users',
+            error: error.message
+        });
+    }
+};

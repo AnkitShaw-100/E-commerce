@@ -1,9 +1,11 @@
 import express from "express";
-import { registerController, loginController, forgotPasswordController } from "../controllers/authController.js";
+import { registerController, loginController, forgotPasswordController, getAllUsersController } from "../controllers/authController.js";
 import { isAdmin, requiresSignIn } from "../middlewares/authMiddleware.js";
 
 // Router Object
 const router = express.Router();
+// Get all users (admin only)
+router.get('/all-users', requiresSignIn, isAdmin, getAllUsersController);
 
 // Routing
 router.post('/register', registerController);

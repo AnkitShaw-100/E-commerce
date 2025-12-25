@@ -31,7 +31,7 @@ export const createProductController = async (req, res) => {
         if (!photo) {
             return res.status(400).send({ message: "Product photo is required" });
         }
-        if (photo.size > 4 * 1024 * 1024) { // 25MB
+        if (photo.size > 5 * 1024 * 1024) { // 5MB
             return res.status(400).send({ message: "Photo should be less than 25MB" });
         }
 
