@@ -1,12 +1,25 @@
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart";
 
 
 const CartPage = () => {
   const { cart, setCart } = useCart();
-  const getTotal = () => cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  const navigate = useNavigate();
+  const PLATFORM_FEE = 30;
+  const DELIVERY_CHARGE = 50;
+  const getSubtotal = () => cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  const getTotal = () => getSubtotal() + PLATFORM_FEE + DELIVERY_CHARGE;
+
+  const updateQuantity = (id, delta) => {
+    setCart(prev => prev.map(item =>
+      item._id === id
+        ? { ...item, quantity: Math.max(1, (item.quantity || 1) + delta) }
+        : item
+    ));
+  };
 
   return (
     <Layout title={"Cart - E-commerce App"}>
@@ -37,6 +50,11 @@ const CartPage = () => {
                             <p className="card-text mb-1">Category: {item.category?.name || '-'}</p>
                             <p className="card-text mb-1">Price: ₹{item.price}</p>
                             <p className="card-text mb-1">Shipping: {item.shipping ? 'Available' : 'No Shipping'}</p>
+                            <div className="d-flex align-items-center mt-2">
+                              <button className="btn btn-outline-secondary btn-sm me-2" onClick={() => updateQuantity(item._id, -1)}>-</button>
+                              <span style={{ minWidth: 30, textAlign: 'center' }}>{item.quantity || 1}</span>
+                              <button className="btn btn-outline-secondary btn-sm ms-2" onClick={() => updateQuantity(item._id, 1)}>+</button>
+                            </div>
                           </div>
                           <button
                             className="btn btn-danger btn-sm ms-3"
@@ -58,13 +76,30 @@ const CartPage = () => {
               <hr />
               <div className="d-flex justify-content-between">
                 <span>Total Items:</span>
-                <span>{cart.length}</span>
+                <span>{cart.reduce((sum, item) => sum + (item.quantity || 1), 0)}</span>
               </div>
               <div className="d-flex justify-content-between">
+                <span>Subtotal:</span>
+                <span>₹{getSubtotal()}</span>
+              </div>
+              <div className="d-flex justify-content-between">
+                <span>Platform Fee:</span>
+                <span>₹{PLATFORM_FEE}</span>
+              </div>
+              <div className="d-flex justify-content-between">
+                <span>Delivery Charges:</span>
+                <span>₹{DELIVERY_CHARGE}</span>
+              </div>
+              <hr />
+              <div className="d-flex justify-content-between fw-bold">
                 <span>Total Amount:</span>
                 <span>₹{getTotal()}</span>
               </div>
-              <button className="btn btn-primary w-100 mt-3" disabled={cart.length === 0}>
+              <button
+                className="btn btn-primary w-100 mt-3"
+                disabled={cart.length === 0}
+                onClick={() => navigate('/payment')}
+              >
                 Proceed to Checkout
               </button>
             </div>

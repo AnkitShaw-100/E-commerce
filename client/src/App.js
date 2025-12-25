@@ -1,4 +1,6 @@
 import CartPage from "./pages/CartPage";
+import PaymentPage from "./pages/PaymentPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
 import ShopPage from "./pages/ShopPage";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -33,6 +35,8 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/payment" element={<PaymentPage />} />
+      <Route path="/order-success" element={<OrderSuccessPage />} />
 
 
 

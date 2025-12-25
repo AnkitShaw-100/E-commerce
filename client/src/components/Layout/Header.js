@@ -4,9 +4,11 @@ import { ShoppingCart, LayoutGrid, User } from 'lucide-react';
 import { toast } from 'react-toastify';
 import './Header.css';
 import { useAuth } from '../../context/auth';
+import { useCart } from '../../context/cart';
 
 const Header = () => {
     const [auth, setAuth] = useAuth();
+    const { cart } = useCart();
     const navigate = useNavigate();
 
     // Logout function
@@ -59,13 +61,21 @@ const Header = () => {
                                 </NavLink>
                             </li>
 
-                            <li className="nav-item">
+                            <li className="nav-item position-relative">
                                 <NavLink
                                     className={({ isActive }) => `nav-link d-flex align-items-center gap-2 ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
                                     to="/cart"
                                 >
                                     <ShoppingCart size={20} />
                                     Cart
+                                    {cart.length > 0 && (
+                                        <span
+                                            className="badge bg-danger rounded-circle position-absolute"
+                                            style={{ top: '-8px', right: '-8px', fontSize: '0.8rem', minWidth: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                        >
+                                            {cart.length}
+                                        </span>
+                                    )}
                                 </NavLink>
                             </li>
 
