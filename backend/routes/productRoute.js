@@ -1,20 +1,25 @@
 import express from 'express';
 import { requiresSignIn, isAdmin } from './../middlewares/authMiddleware.js';
 import {
-  createProductController,
-  updateProductController,
-  getAllProductsController,
-  singleProductController,
-  deleteProductController
+    createProductController,
+    updateProductController,
+    getAllProductsController,
+    singleProductController,
+    deleteProductController,
+    productPhotoController
 } from '../controllers/productController.js';
+import formidable from 'express-formidable';
 
 const router = express.Router();
 
 // Create Product
-router.post('/create-product', requiresSignIn, isAdmin, createProductController);
+router.post('/create-product', requiresSignIn, isAdmin, formidable(), createProductController);
 
-// Update Product
-router.put('/update-product/:id', requiresSignIn, isAdmin, updateProductController);
+// Get product photo
+router.get('/product-photo/:pid', productPhotoController);
+
+// Update Product (with formidable for file upload)
+router.put('/update-product/:id', requiresSignIn, isAdmin, formidable(), updateProductController);
 
 // Get all products
 router.get('/get-products', getAllProductsController);
