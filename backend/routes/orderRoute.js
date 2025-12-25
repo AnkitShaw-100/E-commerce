@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Place order
 router.post("/place", requiresSignIn, placeOrderController);
+
 // Get user orders
 router.get("/user", requiresSignIn, getUserOrdersController);
 

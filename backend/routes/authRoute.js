@@ -4,6 +4,7 @@ import { isAdmin, requiresSignIn } from "../middlewares/authMiddleware.js";
 
 // Router Object
 const router = express.Router();
+
 // Get all users (admin only)
 router.get('/all-users', requiresSignIn, isAdmin, getAllUsersController);
 

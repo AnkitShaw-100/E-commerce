@@ -3,7 +3,6 @@ import { isAdmin, requiresSignIn } from './../middlewares/authMiddleware.js';
 import { createCategoryController, updateCategoryController, categoryContoller, singleCategoryController, deleteCategoryController } from '../controllers/createCategoryController.js';
 const router = express.Router();
 
-// Routes
 // Create Category
 router.post('/create-category', requiresSignIn, isAdmin, createCategoryController);
 

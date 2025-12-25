@@ -1,17 +1,3 @@
-// Get product photo by id
-export const productPhotoController = async (req, res) => {
-    try {
-        const product = await productModel.findById(req.params.pid).select('photo');
-        if (product && product.photo && product.photo.data) {
-            res.set('Content-Type', product.photo.contentType);
-            return res.send(product.photo.data);
-        } else {
-            return res.status(404).send({ message: 'No photo found' });
-        }
-    } catch (error) {
-        res.status(500).send({ message: 'Error fetching product photo', error: error.message });
-    }
-};
 import productModel from "../models/productModel.js";
 import fs from 'fs';
 import slugify from "slugify";
@@ -185,5 +171,20 @@ export const deleteProductController = async (req, res) => {
             error: error.message,
             message: 'Error while deleting product'
         });
+    }
+};
+
+// Get product photo by id
+export const productPhotoController = async (req, res) => {
+    try {
+        const product = await productModel.findById(req.params.pid).select('photo');
+        if (product && product.photo && product.photo.data) {
+            res.set('Content-Type', product.photo.contentType);
+            return res.send(product.photo.data);
+        } else {
+            return res.status(404).send({ message: 'No photo found' });
+        }
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching product photo', error: error.message });
     }
 };

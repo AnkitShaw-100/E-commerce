@@ -1,6 +1,6 @@
 import orderModel from "../models/orderModel.js";
 
-// Place a new order
+// New order 
 export const placeOrderController = async (req, res) => {
   try {
     const { orderId, items, subtotal, platformFee, deliveryCharge, total, paymentMethod } = req.body;

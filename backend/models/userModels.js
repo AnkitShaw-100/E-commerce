@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "Address is required"],
         minlength: [5, "Address must be at least 5 characters"],
         maxlength: [100, "Address must not exceed 100 characters"],
-        match: [/^[a-zA-Z\s,.\-]+$/, "Address must contain only letters and basic punctuation"]
+        match: [/^[a-zA-Z0-9\s,.\-]+$/, "Address must contain only letters, numbers, and basic punctuation"]
     },
     Answer: {
         type: String,

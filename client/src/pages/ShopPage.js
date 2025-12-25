@@ -10,7 +10,7 @@ const ShopPage = () => {
   const [error, setError] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState("");
-  const { cart, setCart } = useCart();
+  const { setCart } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
