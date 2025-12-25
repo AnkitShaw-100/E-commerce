@@ -6,7 +6,9 @@ const OrderSuccessPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   // Get orderId from state or query param
-  const orderId = location.state?.orderId || new URLSearchParams(location.search).get("orderId");
+  const orderId =
+    location.state?.orderId ||
+    new URLSearchParams(location.search).get("orderId");
 
   return (
     <Layout title={"Order Placed Successfully"}>
@@ -16,7 +18,12 @@ const OrderSuccessPage = () => {
           <p className="mb-2">Thank you for shopping with us.</p>
           <h5 className="mb-4">Your Order ID:</h5>
           <div className="display-6 fw-bold mb-4">{orderId || "N/A"}</div>
-          <button className="btn btn-primary" onClick={() => navigate("/dashboard/user/orders")}>View Order History</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/dashboard/user/orders")}
+          >
+            View Order History
+          </button>
         </div>
       </div>
     </Layout>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAuth } from '../../context/auth';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../../context/auth";
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -8,8 +8,8 @@ const UserOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get('/api/v1/order/user', {
-          headers: { Authorization: `Bearer ${auth.token}` }
+        const { data } = await axios.get("/api/v1/order/user", {
+          headers: { Authorization: `Bearer ${auth.token}` },
         });
         setOrders(data.orders || []);
       } catch (err) {
@@ -20,9 +20,14 @@ const UserOrders = () => {
   }, [auth.token]);
 
   return (
-    <div className="card shadow-sm w-100" style={{ maxWidth: '700px', borderRadius: '16px', background: '#fff' }}>
+    <div
+      className="card shadow-sm w-100"
+      style={{ maxWidth: "700px", borderRadius: "16px", background: "#fff" }}
+    >
       <div className="card-body">
-        <h2 className="mb-4 text-center fw-bold" style={{ color: '#222' }}>My Orders</h2>
+        <h2 className="mb-4 text-center fw-bold" style={{ color: "#222" }}>
+          My Orders
+        </h2>
         {orders.length === 0 ? (
           <div className="text-center text-muted">No orders found.</div>
         ) : (
@@ -38,14 +43,16 @@ const UserOrders = () => {
                 </tr>
               </thead>
               <tbody>
-                {orders.map(order => (
+                {orders.map((order) => (
                   <tr key={order._id}>
                     <td>{order.orderId}</td>
                     <td>{new Date(order.createdAt).toLocaleString()}</td>
                     <td>
                       <ul className="list-unstyled mb-0">
-                        {order.items.map(item => (
-                          <li key={item.productId}>{item.name} x{item.quantity}</li>
+                        {order.items.map((item) => (
+                          <li key={item.productId}>
+                            {item.name} x{item.quantity}
+                          </li>
                         ))}
                       </ul>
                     </td>

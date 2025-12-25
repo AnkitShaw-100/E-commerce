@@ -29,10 +29,11 @@ const ForgotPassword = () => {
     }
 
     try {
-      const res = await axios.post(
-        '/api/v1/auth/forgot-password',
-        { email, Answer, newPassword }
-      );
+      const res = await axios.post("/api/v1/auth/forgot-password", {
+        email,
+        Answer,
+        newPassword,
+      });
       if (res.data.success) {
         toast.success(res.data.message || "Password reset successfully");
         setTimeout(() => navigate("/login"), 1000);

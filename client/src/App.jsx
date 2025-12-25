@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Policy from "./pages/Policy";
+import Policy from "./pages/ShippingPolicy";
 import PageNotFound from "./pages/PageNotFound";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
@@ -21,6 +21,10 @@ import PaymentPage from "./pages/PaymentPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import ShopPage from "./pages/ShopPage";
 import Users from "./pages/Admin/Users";
+import ShippingPolicy from "./pages/ShippingPolicy";
+import ReturnRefund from "./pages/ReturnRefund";
+import Support from "./pages/Support";
+import FAQs from "./pages/FAQs";
 
 function App() {
   return (
@@ -36,6 +40,10 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/order-success" element={<OrderSuccessPage />} />
+      <Route path="/shipping-policy" element={<ShippingPolicy />} />
+      <Route path="/refund" element={<ReturnRefund />} />
+      <Route path="/support" element={<Support />} />
+      <Route path="/faq" element={<FAQs />} />
 
       {/* User Dashboard Route and subpages (nested, like admin) */}
       <Route path="/dashboard/user" element={<PrivateRoute />}>

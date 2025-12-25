@@ -19,18 +19,18 @@ const Footer = () => {
 
             {/* Social Icons */}
             <div className="flex gap-6 mt-4 text-white">
-              <Link to="#" aria-label="GitHub" className="hover:text-gray-300">
+              <Link to="https://github.com/AnkitShaw-100" aria-label="GitHub" className="hover:text-gray-300">
                 <FaGithub className="w-6 h-6" />
               </Link>
               <Link
-                to="#"
+                to="https://leetcode.com/u/ankitcode6933/"
                 aria-label="LeetCode"
                 className="hover:text-gray-300"
               >
                 <SiLeetcode className="w-6 h-6" />
               </Link>
               <Link
-                to="#"
+                to="https://www.linkedin.com/in/ankit-shaw-884b0728a/"
                 aria-label="LinkedIn"
                 className="hover:text-gray-300"
               >
@@ -54,16 +54,6 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/product" className="hover:text-gray-300">
-                  Product
-                </Link>
-              </li>
-              <li>
-                <Link to="/articles" className="hover:text-gray-300">
-                  Articles
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" className="hover:text-gray-300">
                   Contact Us
                 </Link>
@@ -76,7 +66,7 @@ const Footer = () => {
             <div className="font-semibold mb-6">Info</div>
             <ul className="space-y-3">
               <li>
-                <Link to="/shipping" className="hover:text-gray-300">
+                <Link to="/shipping-policy" className="hover:text-gray-300">
                   Shipping Policy
                 </Link>
               </li>
