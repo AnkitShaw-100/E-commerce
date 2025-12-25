@@ -7,7 +7,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
-import UserDashboard from "./pages/user/UserDashboard";
+import UserDashboard from "./pages/user/UserDashboardHome";
 import UserProfile from "./pages/user/UserProfile";
 import UserOrders from "./pages/user/UserOrders";
 import PrivateRoute from "./components/Routes/Private";

@@ -3,8 +3,7 @@ import Layout from "../../components/Layout/Layout.jsx";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import "./Login.css";
-import { useAuth } from "../../context/auth.js";
+import { useAuth } from "../../context/auth.jsx";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -13,11 +12,9 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    // Form validation and submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validation rules
         if (!email || email.trim() === "") {
             toast.error("Email is required");
             return;
@@ -41,10 +38,8 @@ const Login = () => {
             return;
         }
 
-        // If all validations pass, submit
         try {
             const res = await axios.post('/api/v1/auth/login', { email, password });
-            console.log('Login Response:', res.data);
             if (res.data.success) {
                 toast.success(res.data.message);
                 setAuth({
@@ -55,7 +50,6 @@ const Login = () => {
                     user: res.data.user,
                     token: res.data.token
                 }));
-                console.log('Navigating to home...');
                 navigate('/');
             }
             else {
@@ -63,23 +57,21 @@ const Login = () => {
             }
         }
         catch (error) {
-            console.log('Error:', error);
             toast.error(error.response?.data?.message || "Something went wrong");
         }
     }
 
-    // console.log(`${process.env.REACT_APP_API}`);
     return (
         <Layout title="Login - Ecomm app">
-            <div className="login">
-                <div className="login-container">
-                    <h1>Welcome Back</h1>
-                    <p className="login-subtitle">Login to your account to continue shopping</p>
+            <div className="flex items-center justify-center min-h-[90vh] bg-gray-100 px-4 font-poppins">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mx-auto">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-center tracking-tight">Welcome Back</h1>
+                    <p className="text-center text-gray-600 text-sm mb-6 font-normal leading-relaxed">Login to your account to continue shopping</p>
 
-                    <form onSubmit={handleSubmit} className="login-form">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
                         {/* Email */}
-                        <div className="form-group">
-                            <label htmlFor="email">Email Address</label>
+                        <div className="flex flex-col gap-2 w-full">
+                            <label htmlFor="email" className="text-sm font-semibold text-gray-900 capitalize">Email Address</label>
                             <input
                                 id="email"
                                 type="email"
@@ -87,12 +79,13 @@ const Login = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email"
                                 required
+                                className="py-3 px-4 border border-gray-300 rounded-md text-base font-poppins transition-all bg-gray-50 w-full focus:outline-none focus:border-gray-900 focus:bg-white focus:shadow-md placeholder:text-gray-400"
                             />
                         </div>
 
                         {/* Password */}
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                        <div className="flex flex-col gap-2 w-full">
+                            <label htmlFor="password" className="text-sm font-semibold text-gray-900 capitalize">Password</label>
                             <input
                                 id="password"
                                 type="password"
@@ -100,17 +93,25 @@ const Login = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your password"
                                 required
+                                className="py-3 px-4 border border-gray-300 rounded-md text-base font-poppins transition-all bg-gray-50 w-full focus:outline-none focus:border-gray-900 focus:bg-white focus:shadow-md placeholder:text-gray-400"
                             />
                         </div>
 
-                        <button type="submit" className="login-btn">
+                        <button
+                            type="submit"
+                            className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 px-5 rounded-md text-base font-semibold cursor-pointer transition-all mt-2 uppercase tracking-wide shadow-md w-full hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+                        >
                             Login Now
                         </button>
                     </form>
 
-                    <div className="login-footer">
-
-                        <a href="/forgot-password">Forgot password?</a>
+                    <div className="text-center mt-6 text-sm text-gray-600">
+                        <a
+                            href="/forgot-password"
+                            className="text-gray-900 font-semibold transition-colors ml-1 hover:text-gray-800 hover:underline"
+                        >
+                            Forgot password?
+                        </a>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/cart';
 import axios from 'axios';
 import Layout from '../components/Layout/Layout.jsx';
-import Filters from '../components/Filters';
+import Filters from '../components/Filter';
 
 const ShopPage = () => {
   const [products, setProducts] = useState([]);

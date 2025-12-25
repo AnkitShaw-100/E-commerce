@@ -5,7 +5,8 @@ const Policy = () => {
     return (
         <>
             <Layout>
-                <h1>Home Page</h1>
+                <h1>Policy Page
+                </h1>
             </Layout>
         </>
     )

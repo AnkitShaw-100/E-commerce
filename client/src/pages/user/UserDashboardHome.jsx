@@ -3,7 +3,7 @@ import Layout from '../../components/Layout/Layout.jsx';
 import UserMenu from '../../components/Layout/UserMenu';
 import { Outlet } from 'react-router-dom';
 
-const UserDashboard = () => {
+const UserDashboardHome = () => {
   return (
     <Layout title={"User Dashboard - Ecommerce App"}>
       <div className="container-fluid py-4 px-2 user-dashboard-bg" style={{ overflowX: 'hidden', minHeight: '90vh' }}>
@@ -33,4 +33,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default UserDashboardHome;
