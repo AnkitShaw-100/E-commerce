@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/cart';
 import axios from 'axios';
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/Layout/Layout.jsx';
 import Filters from '../components/Filters';
 
 const ShopPage = () => {

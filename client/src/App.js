@@ -1,7 +1,3 @@
-import CartPage from "./pages/CartPage";
-import PaymentPage from "./pages/PaymentPage";
-import OrderSuccessPage from "./pages/OrderSuccessPage";
-import ShopPage from "./pages/ShopPage";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
@@ -11,7 +7,6 @@ import PageNotFound from "./pages/PageNotFound";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
-
 import UserDashboard from "./pages/user/UserDashboard";
 import UserProfile from "./pages/user/UserProfile";
 import UserOrders from "./pages/user/UserOrders";
@@ -21,6 +16,10 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminDetails from "./pages/Admin/AdminDetails";
 import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
+import CartPage from "./pages/CartPage";
+import PaymentPage from "./pages/PaymentPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+import ShopPage from "./pages/ShopPage";
 import Users from "./pages/Admin/Users";
 
 function App() {
@@ -37,8 +36,6 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/order-success" element={<OrderSuccessPage />} />
-
-
 
       {/* User Dashboard Route and subpages (nested, like admin) */}
       <Route path="/dashboard/user" element={<PrivateRoute />}>
