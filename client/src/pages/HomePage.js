@@ -1,17 +1,14 @@
-import React from 'react'
-import Layout from '../components/Layout/Layout'
-import { useAuth } from "../context/auth.js"
+
+
+import React from 'react';
+import Layout from '../components/Layout/Layout';
 
 const HomePage = () => {
-    const [auth, setAuth] = useAuth();
     return (
-        <>
-            <Layout>
-                <h1>Home Page</h1>
-                <pre>{JSON.stringify(auth, null, 4)}</pre>
-            </Layout>
-        </>
-    )
-}
+        <Layout>
+            <h2 className="mb-4 text-center fw-bold" style={{ color: '#222' }}>Home Page</h2>
+        </Layout>
+    );
+};
 
-export default HomePage
+export default HomePage;

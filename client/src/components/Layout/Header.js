@@ -52,10 +52,10 @@ const Header = () => {
                             <li className="nav-item">
                                 <NavLink
                                     className={({ isActive }) => `nav-link d-flex align-items-center gap-2 ${isActive ? 'active text-white fw-bold' : 'text-white'}`}
-                                    to="/categories"
+                                    to="/shop"
                                 >
                                     <LayoutGrid size={18} />
-                                    Categories
+                                    Shop
                                 </NavLink>
                             </li>
 
