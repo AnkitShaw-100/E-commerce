@@ -1,36 +1,133 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
+import axios from "axios";
 
 const AdminDetails = () => {
   const [auth] = useAuth();
+  const user = auth?.user || {};
+  const initial = user.name ? user.name.charAt(0).toUpperCase() : "A";
+
+  const [ordersCount, setOrdersCount] = useState(null);
+  const [totalRevenue, setTotalRevenue] = useState(null);
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem("auth")
+          ? JSON.parse(localStorage.getItem("auth")).token
+          : "";
+        const { data } = await axios.get("/api/v1/order/all", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (data?.success) {
+          setOrdersCount(data.orders?.length || 0);
+          setTotalRevenue(Number(data.totalRevenue || 0));
+        }
+      } catch (err) {
+        console.error("Failed fetching orders stats", err);
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-xl shadow-sm p-6">
-      <h2 className="text-2xl font-semibold text-gray-900 mb-4">Admin Details</h2>
+    <div className="max-w-4xl mx-auto bg-white rounded-xl p-6">
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Avatar / Sidebar */}
+        <div className="md:w-44 w-full flex-shrink-0">
+          <div className="flex md:flex-col items-center md:items-center gap-4 md:gap-0">
+            <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gray-100 flex items-center justify-center text-3xl font-bold text-gray-800">
+              {initial}
+            </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">Name</span>
-          <span className="text-sm font-medium text-gray-900">{auth?.user?.name || "—"}</span>
+            <div className="md:mt-3 text-center md:text-center">
+              <div className="text-lg font-semibold text-gray-900">
+                {user.name || "—"}
+              </div>
+              <span
+                className={`mt-1 inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                  user.role === 1
+                    ? "bg-black text-white"
+                    : "bg-gray-100 text-gray-800"
+                }`}
+              >
+                {user.role === 1 ? "Admin" : "User"}
+              </span>
+            </div>
+          </div>
+
+          <button className="mt-4 w-full px-3 py-2 bg-black text-white rounded-md text-sm">
+            Edit Profile
+          </button>
         </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">Email</span>
-          <span className="text-sm font-medium text-gray-900">{auth?.user?.email || "—"}</span>
-        </div>
+        {/* Main Content */}
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            Profile Details
+          </h3>
 
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">Contact</span>
-          <span className="text-sm font-medium text-gray-900">{auth?.user?.phone || "—"}</span>
-        </div>
+          {/* Profile Info */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Info label="Email" value={user.email} />
+            <Info label="Contact" value={user.phone} />
+            <Info label="Address" value={user.address} />
+            <Info
+              label="Member Since"
+              value={
+                user.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString()
+                  : "—"
+              }
+            />
+          </div>
 
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">Role</span>
-          <span className="text-sm font-medium text-gray-900">{auth?.user?.role === 1 ? "Admin" : "User"}</span>
+          {/* Stats */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Stat
+              label="Orders"
+              value={loadingStats ? "—" : ordersCount}
+            />
+            <Stat
+              label="Revenue"
+              value={
+                loadingStats ? "—" : `₹${totalRevenue.toFixed(2)}`
+              }
+            />
+            <Stat
+              label="Last Login"
+              value={
+                user.updatedAt
+                  ? new Date(user.updatedAt).toLocaleDateString()
+                  : "—"
+              }
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 };
+
+const Info = ({ label, value }) => (
+  <div className="p-4 bg-gray-50 rounded-lg">
+    <div className="text-xs text-gray-500">{label}</div>
+    <div className="mt-1 text-sm font-medium text-gray-900">
+      {value || "—"}
+    </div>
+  </div>
+);
+
+const Stat = ({ label, value }) => (
+  <div className="p-4 border rounded-lg text-center">
+    <div className="text-xs text-gray-500">{label}</div>
+    <div className="mt-1 text-lg font-semibold text-gray-900">
+      {value}
+    </div>
+  </div>
+);
 
 export default AdminDetails;

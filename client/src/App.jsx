@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Policy from "./pages/ShippingPolicy";
 import PageNotFound from "./pages/PageNotFound";
@@ -20,6 +19,8 @@ import CartPage from "./pages/CartPage";
 import PaymentPage from "./pages/PaymentPage";
 import ShopPage from "./pages/ShopPage";
 import Users from "./pages/Admin/Users";
+import AdminOrders from "./pages/Admin/AdminOrders";
+import NewProducts from "./pages/Admin/NewProducts";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnRefund from "./pages/ReturnRefund";
 import Support from "./pages/Support";
@@ -29,7 +30,6 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/about" element={<About />} />
       <Route path="/shop" element={<ShopPage />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/policy" element={<Policy />} />
@@ -58,6 +58,8 @@ function App() {
           <Route index element={<AdminDetails />} />
           <Route path="create-category" element={<CreateCategory />} />
           <Route path="create-product" element={<CreateProduct />} />
+          <Route path="new-products" element={<NewProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
           <Route path="users" element={<Users />} />
         </Route>
       </Route>

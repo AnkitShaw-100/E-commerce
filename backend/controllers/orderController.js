@@ -32,3 +32,14 @@ export const getUserOrdersController = async (req, res) => {
     res.status(500).send({ success: false, message: "Error fetching orders", error: error.message });
   }
 };
+
+// Admin: get all orders and total revenue
+export const getAllOrdersController = async (req, res) => {
+  try {
+    const orders = await orderModel.find({}).populate('user', 'name email phone').sort({ createdAt: -1 });
+    const totalRevenue = orders.reduce((sum, o) => sum + (parseFloat(o.total) || 0), 0);
+    res.status(200).send({ success: true, orders, totalRevenue });
+  } catch (error) {
+    res.status(500).send({ success: false, message: "Error fetching all orders", error: error.message });
+  }
+};
