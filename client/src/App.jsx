@@ -18,7 +18,6 @@ import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import CartPage from "./pages/CartPage";
 import PaymentPage from "./pages/PaymentPage";
-import OrderSuccessPage from "./pages/OrderSuccessPage";
 import ShopPage from "./pages/ShopPage";
 import Users from "./pages/Admin/Users";
 import ShippingPolicy from "./pages/ShippingPolicy";
@@ -39,7 +38,6 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/payment" element={<PaymentPage />} />
-      <Route path="/order-success" element={<OrderSuccessPage />} />
       <Route path="/shipping-policy" element={<ShippingPolicy />} />
       <Route path="/refund" element={<ReturnRefund />} />
       <Route path="/support" element={<Support />} />

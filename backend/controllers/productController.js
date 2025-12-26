@@ -29,6 +29,9 @@ export const createProductController = async (req, res) => {
             });
         }
 
+        const normalizedShipping =
+            shipping === true || shipping === 'true' || shipping === 'on' ? true : false;
+
         const product = new productModel({
             name,
             slug: slugify(name),
@@ -36,7 +39,7 @@ export const createProductController = async (req, res) => {
             price,
             category,
             quantity,
-            shipping: shipping || false
+            shipping: normalizedShipping,
         });
 
         // Save photo data
@@ -78,7 +81,7 @@ export const updateProductController = async (req, res) => {
         product.price = price;
         product.category = category;
         product.quantity = quantity;
-        product.shipping = shipping;
+        product.shipping = shipping === true || shipping === 'true' || shipping === 'on' ? true : false;
         if (photo) {
             product.photo.data = fs.readFileSync(photo.path);
             product.photo.contentType = photo.type;

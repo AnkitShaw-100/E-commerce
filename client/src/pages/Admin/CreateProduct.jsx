@@ -238,6 +238,23 @@ const CreateProduct = () => {
             }
             required
           />
+          <div className="form-check mb-3">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="shipping"
+              name="shipping"
+              checked={editId ? editProduct.shipping : shipping}
+              onChange={
+                editId
+                  ? handleEditChange
+                  : (e) => setShipping(e.target.checked)
+              }
+            />
+            <label className="form-check-label ms-2" htmlFor="shipping">
+              Shipping Available
+            </label>
+          </div>
           <div className="mt-3">
             <input
               type="file"

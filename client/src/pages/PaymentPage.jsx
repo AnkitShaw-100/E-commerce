@@ -7,23 +7,31 @@ import axios from "axios";
 
 const PaymentPage = () => {
   const [selected, setSelected] = useState("COD");
+  const [orderPlacedId, setOrderPlacedId] = useState(null);
+
   const navigate = useNavigate();
   const { cart, setCart } = useCart();
   const [auth] = useAuth();
+
   const PLATFORM_FEE = 30;
   const DELIVERY_CHARGE = 50;
+
   const getSubtotal = () =>
     cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
-  const getTotal = () => getSubtotal() + PLATFORM_FEE + DELIVERY_CHARGE;
+
+  const getTotal = () =>
+    cart.length === 0 ? 0 : getSubtotal() + PLATFORM_FEE + DELIVERY_CHARGE;
 
   const handlePlaceOrder = async () => {
     const orderId = `OD${Date.now()}${Math.floor(Math.random() * 1000)}`;
+
     const items = cart.map((item) => ({
       productId: item._id,
       name: item.name,
       price: item.price,
       quantity: item.quantity || 1,
     }));
+
     try {
       await axios.post(
         "/api/v1/order/place",
@@ -38,9 +46,10 @@ const PaymentPage = () => {
         },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
+
       setCart([]);
       localStorage.removeItem("cart");
-      navigate("/order-success", { state: { orderId } });
+      setOrderPlacedId(orderId);
     } catch (err) {
       alert("Order placement failed. Please try again.");
     }
@@ -48,96 +57,137 @@ const PaymentPage = () => {
 
   return (
     <Layout title={"Select Payment Method"}>
-      <div className="container mt-4">
-        <h2 className="mb-4 text-center">Select Payment Method</h2>
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="card p-4 mb-4">
-              <h5 className="mb-3">Order Summary</h5>
-              <ul className="list-group mb-3">
-                {cart.map((item) => (
-                  <li
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                    key={item._id}
-                  >
-                    <span>
-                      {item.name}{" "}
-                      <span className="text-muted">x{item.quantity || 1}</span>
-                    </span>
-                    <span>₹{item.price * (item.quantity || 1)}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="d-flex justify-content-between">
-                <span>Subtotal:</span>
-                <span>₹{getSubtotal()}</span>
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="text-center text-3xl font-bold mb-6">Checkout</div>
+
+        {orderPlacedId ? (
+          /* ✅ ORDER SUCCESS */
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white rounded-xl shadow-xl p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                ✓
               </div>
-              <div className="d-flex justify-content-between">
-                <span>Platform Fee:</span>
-                <span>₹{PLATFORM_FEE}</span>
+
+              <h2 className="text-2xl font-semibold mb-2">Order Placed!</h2>
+              <p className="text-gray-600 mb-4">
+                Thanks for shopping with 3legant 
+              </p>
+
+              <div className="mt-4">
+                <p className="text-sm text-gray-500">Order ID</p>
+                <p className="text-xl font-bold break-words">
+                  {orderPlacedId}
+                </p>
               </div>
-              <div className="d-flex justify-content-between">
-                <span>Delivery Charges:</span>
-                <span>₹{DELIVERY_CHARGE}</span>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  onClick={() => navigate("/dashboard/user/orders")}
+                  className="px-6 py-3 bg-black text-white rounded-lg font-semibold"
+                >
+                  View Orders
+                </button>
+                <button
+                  onClick={() => {
+                    setOrderPlacedId(null);
+                    navigate("/");
+                  }}
+                  className="px-6 py-3 border rounded-lg"
+                >
+                  Continue Shopping
+                </button>
               </div>
-              <hr />
-              <div className="d-flex justify-content-between fw-bold">
-                <span>Total Amount:</span>
-                <span>₹{getTotal()}</span>
-              </div>
-            </div>
-            <div className="card p-4">
-              <h5 className="mb-3">Choose Payment Method</h5>
-              <div className="form-check mb-2">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="payment"
-                  id="cod"
-                  value="COD"
-                  checked={selected === "COD"}
-                  onChange={() => setSelected("COD")}
-                />
-                <label className="form-check-label" htmlFor="cod">
-                  Cash on Delivery (COD)
-                </label>
-              </div>
-              <div className="form-check mb-2">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="payment"
-                  id="online"
-                  value="Online"
-                  disabled
-                />
-                <label className="form-check-label " htmlFor="online">
-                  Online Payment (Coming Soon)
-                </label>
-              </div>
-              <div className="form-check mb-2">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="payment"
-                  id="netbanking"
-                  value="NetBanking"
-                  disabled
-                />
-                <label className="form-check-label af" htmlFor="netbanking">
-                  Net Banking (Coming Soon)
-                </label>
-              </div>
-              <button
-                className="btn btn-success w-100 mt-3"
-                onClick={handlePlaceOrder}
-                disabled={selected !== "COD"}
-              >
-                Place Order
-              </button>
             </div>
           </div>
-        </div>
+        ) : (
+          /* ✅ CHECKOUT */
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-xl shadow-xl p-6">
+                <h3 className="text-lg font-semibold mb-4">
+                  Choose Payment Method
+                </h3>
+
+                <label className="flex items-center gap-3 p-3 border rounded-md mb-3">
+                  <input
+                    type="radio"
+                    checked={selected === "COD"}
+                    onChange={() => setSelected("COD")}
+                  />
+                  <div>
+                    <p className="font-medium">Cash on Delivery</p>
+                    <p className="text-xs text-gray-500">
+                      Pay when you receive
+                    </p>
+                  </div>
+                </label>
+
+                <label className="flex items-center gap-3 p-3 border rounded-md opacity-60">
+                  <input type="radio" disabled />
+                  <div>
+                    <p className="font-medium">Online Payment</p>
+                    <p className="text-xs text-gray-500">Coming soon</p>
+                  </div>
+                </label>
+
+                <button
+                  onClick={handlePlaceOrder}
+                  disabled={cart.length === 0}
+                  className="mt-4 w-full bg-black text-white py-3 rounded-lg font-semibold disabled:opacity-50"
+                >
+                  Place Order
+                </button>
+              </div>
+            </div>
+
+            {/* Right - Invoice */}
+            <div>
+              <div className="bg-white rounded-xl shadow-xl p-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl font-bold">3legant</h2>
+                  <p className="text-xs text-gray-500">Order Summary</p>
+                </div>
+
+                <hr className="mb-4" />
+
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span>Items</span>
+                    <span>
+                      {cart.reduce(
+                        (sum, i) => sum + (i.quantity || 1),
+                        0
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>₹{getSubtotal()}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Platform Fee</span>
+                    <span>₹{PLATFORM_FEE}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Delivery</span>
+                    <span>₹{DELIVERY_CHARGE}</span>
+                  </div>
+                </div>
+
+                <hr className="my-4" />
+
+                <div className="flex justify-between text-lg font-semibold">
+                  <span>Total</span>
+                  <span>₹{getTotal()}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

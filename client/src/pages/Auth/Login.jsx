@@ -69,7 +69,7 @@ const Login = () => {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-center tracking-tight">
             Welcome Back
           </h1>
-          <p className="text-center text-gray-600 text-sm mb-6 font-normal leading-relaxed">
+          <p className="text-center text-gray-600 text-base mb-6 font-normal leading-relaxed">
             Login to your account to continue shopping
           </p>
 
@@ -120,7 +120,7 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="text-center mt-6 text-sm text-gray-600">
+          <div className="text-center mt-6 text-base text-gray-600">
             <a
               href="/forgot-password"
               className="text-gray-900 font-semibold transition-colors ml-1 hover:text-gray-800 hover:underline"

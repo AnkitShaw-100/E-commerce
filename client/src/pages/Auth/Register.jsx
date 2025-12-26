@@ -39,12 +39,12 @@ const Register = () => {
 
   return (
     <Layout title="Register - Ecomm app">
-      <div className="flex items-center justify-center min-h-[90vh] bg-gray-100 px-4 font-poppins">
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-2xl mx-auto">
+      <div className="flex items-center justify-center min-h-[90vh]  px-4 font-poppins">
+        <div className=" rounded-lg shadow-lg p-8 w-full max-w-2xl mx-auto">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-center tracking-tight">
             Create Account
           </h1>
-          <p className="text-center text-gray-600 text-sm mb-6 font-normal leading-relaxed">
+          <p className="text-center text-gray-600 text-base mb-6 font-normal leading-relaxed">
             Join us today and start shopping
           </p>
           <form
@@ -162,13 +162,13 @@ const Register = () => {
             <div className="md:col-span-2 flex justify-center items-center mt-2">
               <button
                 type="submit"
-                className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 px-6 rounded-md text-base font-semibold uppercase tracking-wide shadow-md hover:-translate-y-1 hover:shadow-lg transition w-auto min-w-[180px]"
+                className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 px-5 rounded-md text-base font-semibold cursor-pointer transition-all mt-2 uppercase tracking-wide shadow-md w-full hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
               >
                 Register Now
               </button>
             </div>
           </form>
-          <div className="text-center mt-6 text-sm text-gray-600">
+          <div className="text-center mt-6 text-base text-gray-600">
             Already have an account?
             <a
               href="/login"

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ShoppingCart, LayoutGrid, User } from "lucide-react";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/auth";
 import { useCart } from "../../context/cart";
@@ -11,6 +10,17 @@ const Header = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Logout function
   const handleLogout = () => {
@@ -58,20 +68,29 @@ const Header = () => {
                 : "hidden"
             } lg:static lg:bg-transparent lg:p-0`}
           >
-            <ul className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
+              <ul className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
               <li>
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
                     `text-base font-medium ${
-                      isActive
-                        ? "text-black border-b-2 border-black pb-1"
-                        : "text-black hover:text-gray-600"
+                      isActive ? "text-black" : "text-black hover:text-gray-600"
                     } transition`
                   }
                   onClick={() => setMenuOpen(false)}
                 >
-                  Home
+                  {({ isActive }) => (
+                    <span className="relative inline-block">
+                      <span>Home</span>
+                      <span
+                        className="absolute left-1/2 -bottom-1 h-[2px] bg-black transition-all duration-1000 ease-out"
+                        style={{
+                          width: isActive ? "100%" : "0%",
+                          transform: "translateX(-50%)",
+                        }}
+                      />
+                    </span>
+                  )}
                 </NavLink>
               </li>
               <li>
@@ -79,14 +98,23 @@ const Header = () => {
                   to="/shop"
                   className={({ isActive }) =>
                     `flex items-center gap-1 text-base font-medium ${
-                      isActive
-                        ? "text-black border-b-2 border-black pb-1"
-                        : "text-black hover:text-gray-600"
+                      isActive ? "text-black" : "text-black hover:text-gray-600"
                     } transition`
                   }
                   onClick={() => setMenuOpen(false)}
                 >
-                  <LayoutGrid size={18} /> Shop
+                  {({ isActive }) => (
+                    <span className="relative inline-block">
+                      <span>Shop</span>
+                      <span
+                        className="absolute left-1/2 -bottom-1 h-[2px] bg-black transition-all duration-1000 ease-out"
+                        style={{
+                          width: isActive ? "100%" : "0%",
+                          transform: "translateX(-50%)",
+                        }}
+                      />
+                    </span>
+                  )}
                 </NavLink>
               </li>
               <li className="relative">
@@ -94,31 +122,41 @@ const Header = () => {
                   to="/cart"
                   className={({ isActive }) =>
                     `flex items-center gap-1 text-base font-medium ${
-                      isActive
-                        ? "text-black border-b-2 border-black pb-1"
-                        : "text-black hover:text-gray-600"
+                      isActive ? "text-black" : "text-black hover:text-gray-600"
                     } transition`
                   }
                   onClick={() => setMenuOpen(false)}
                 >
-                  <ShoppingCart size={20} /> Cart
-                  {cart.length > 0 && (
-                    <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold border-2 border-white">
-                      {cart.length}
-                    </span>
+                  {({ isActive }) => (
+                    <>
+                      <span className="relative w-full lg:inline-block lg:w-auto flex justify-end lg:justify-start">
+                        <span>Cart</span>
+                        <span
+                          className="absolute left-1/2 -bottom-1 h-[2px] bg-black transition-all duration-1000 ease-out"
+                          style={{
+                            width: isActive ? "100%" : "0%",
+                            transform: "translateX(-50%)",
+                          }}
+                        />
+                      </span>
+                      {cart.length > 0 && (
+                        <span className="absolute -top-1 -right-5 bg-red-600 text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center font-bold border-2 border-white">
+                          {cart.length}
+                        </span>
+                      )}
+                    </>
                   )}
                 </NavLink>
               </li>
               {/* Account Dropdown */}
-              <li className="relative">
+              <li className="relative" ref={dropdownRef}>
                 <button
                   className="flex items-center gap-1 text-base font-medium text-black hover:text-gray-600 focus:outline-none transition"
                   onClick={() => setDropdownOpen((prev) => !prev)}
-                  onBlur={() => setTimeout(() => setDropdownOpen(false), 150)}
                   aria-haspopup="true"
                   aria-expanded={dropdownOpen}
                 >
-                  <User size={18} /> Account
+                  Account
                   <svg
                     className={`ml-1 w-4 h-4 transition-transform ${
                       dropdownOpen ? "rotate-180" : ""

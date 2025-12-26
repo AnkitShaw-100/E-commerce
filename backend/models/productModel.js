@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema(
             required: [true, "Quantity is required"],
             min: [0, "Quantity must be positive"],
         },
+            shipping: {
+                type: Boolean,
+                default: false,
+            },
         photo: {
             data: Buffer,
             contentType: String,
