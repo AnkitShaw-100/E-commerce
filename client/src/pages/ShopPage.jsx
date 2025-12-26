@@ -162,7 +162,9 @@ const ShopPage = () => {
 
             {filteredProducts.length === 0 ? (
               <div className="w-full py-12 flex flex-col items-center justify-center">
-                <p className="mt-4 text-lg text-gray-600">No products match your filters.</p>
+                <p className="mt-4 text-lg text-gray-600">
+                  No products match your filters.
+                </p>
                 <div className="mt-4">
                   <button
                     onClick={() => {
@@ -179,116 +181,147 @@ const ShopPage = () => {
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {productsToShow.map((prod) => (
-                  <div key={prod._id} className="w-full">
-                    <div className="bg-white rounded-xl shadow-xl hover:shadow-lg transition h-full flex flex-col">
-                              <div className="overflow-hidden rounded-t-xl relative">
-                              <img
-                                src={getImageUrl(prod.photo)}
-                                alt={prod.name}
-                                className="w-full h-48 object-cover"
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src =
-                                    "https://via.placeholder.com/400x300?text=No+Image";
-                                }}
-                              />
-                              {(() => {
-                                const d = getDiscount(prod);
-                                return d > 0 ? (
-                                  <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-lg">
-                                    -{d}% OFF
-                                  </div>
-                                ) : null;
-                              })()}
-                            </div>
-                      <div className="p-3 flex-1 flex flex-col">
-                        <div>
-                          <div className="flex items-start justify-between">
-                            <h3 className="text-lg font-semibold text-gray-900">
-                              {prod.name}
-                            </h3>
-                            <div className="text-lg font-semibold text-gray-900">
-                              {typeof prod.price !== 'undefined' ? `₹${prod.price}` : ""}
-                            </div>
-                          </div>
-                          <p className="text-sm text-gray-500">{prod.category?.name || "-"}</p>
-                          <p className="text-sm text-gray-600 mt-2 line-clamp-3">{prod.description}</p>
-                          <p className="text-xs text-gray-500 mt-2">{prod.shipping ? "Shipping Available" : "No Shipping"}</p>
+                    <div key={prod._id} className="w-full">
+                      <div className="bg-white rounded-xl shadow-xl hover:shadow-lg transition h-full flex flex-col">
+                        <div className="overflow-hidden rounded-t-xl relative">
+                          <img
+                            src={getImageUrl(prod.photo)}
+                            alt={prod.name}
+                            className="w-full h-48 object-cover"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src =
+                                "https://via.placeholder.com/400x300?text=No+Image";
+                            }}
+                          />
+                          {(() => {
+                            const d = getDiscount(prod);
+                            return d > 0 ? (
+                              <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-lg">
+                                -{d}% OFF
+                              </div>
+                            ) : null;
+                          })()}
                         </div>
+                        <div className="p-3 flex-1 flex flex-col">
+                          <div>
+                            <div className="flex items-start justify-between">
+                              <h3 className="text-lg font-semibold text-gray-900">
+                                {prod.name}
+                              </h3>
+                              <div className="text-lg font-semibold text-gray-900">
+                                {typeof prod.price !== "undefined"
+                                  ? `₹${prod.price}`
+                                  : ""}
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-500">
+                              {prod.category?.name || "-"}
+                            </p>
+                            <p className="text-sm text-gray-600 mt-2 line-clamp-3">
+                              {prod.description}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-2">
+                              {prod.shipping
+                                ? "Shipping Available"
+                                : "No Shipping"}
+                            </p>
+                          </div>
 
-                        <div className="mt-3 flex items-center justify-between gap-3">
-                          <button
-                            onClick={() => navigate(`/product/${prod.slug || prod._id}`)}
-                            className="text-sm px-2 py-2.5 bg-white text-black border border-black rounded-md font-medium hover:bg-gray-50"
-                          >
-                            View More
-                          </button>
+                          <div className="mt-3 flex items-center justify-between gap-3">
+                            <button
+                              onClick={() =>
+                                navigate(`/product/${prod.slug || prod._id}`)
+                              }
+                              className="text-sm px-2 py-2.5 bg-white text-black border border-black rounded-md font-medium hover:bg-gray-50"
+                            >
+                              View More
+                            </button>
 
-                          {cart && cart.find((item) => item._id === prod._id) ? (
-                            <button
-                              disabled
-                              className="text-sm px-3 py-2.5 bg-gray-300 text-gray-700 rounded-md font-medium"
-                            >
-                              Added in Cart
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => {
-                                setCart((prev) => {
-                                  const exists = prev.find((item) => item._id === prod._id);
-                                  if (exists) return prev;
-                                  return [...prev, { ...prod, quantity: 1 }];
-                                });
-                              }}
-                              className="text-sm px-3 py-2.5 bg-black text-white rounded-md font-medium hover:bg-gray-900"
-                            >
-                              Add to Cart
-                            </button>
-                          )}
+                            {cart &&
+                            cart.find((item) => item._id === prod._id) ? (
+                              <button
+                                disabled
+                                className="text-sm px-3 py-2.5 bg-gray-300 text-gray-700 rounded-md font-medium"
+                              >
+                                Added in Cart
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  setCart((prev) => {
+                                    const exists = prev.find(
+                                      (item) => item._id === prod._id
+                                    );
+                                    if (exists) return prev;
+                                    return [...prev, { ...prod, quantity: 1 }];
+                                  });
+                                }}
+                                className="text-sm px-3 py-2.5 bg-black text-white rounded-md font-medium hover:bg-gray-900"
+                              >
+                                Add to Cart
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <div className="mt-8 min-h-[56px] flex items-center justify-center">
-                {filteredProducts.length > productsPerPage ? (
-                  <nav className="flex items-center justify-center" aria-label="Pagination">
-                    <button
-                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                      className="px-3 py-2 border rounded-md bg-white hover:bg-gray-50 disabled:opacity-50"
+                <div className="mt-8 min-h-[56px] flex items-center justify-center">
+                  {filteredProducts.length > productsPerPage ? (
+                    <nav
+                      className="flex items-center justify-center"
+                      aria-label="Pagination"
                     >
-                      Prev
-                    </button>
+                      <button
+                        onClick={() =>
+                          setCurrentPage((p) => Math.max(1, p - 1))
+                        }
+                        disabled={currentPage === 1}
+                        className="px-3 py-2 border rounded-md bg-white hover:bg-gray-50 disabled:opacity-50"
+                      >
+                        Prev
+                      </button>
 
-                    <div className="flex items-center gap-2 mx-3">
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-                        <button
-                          key={num}
-                          onClick={() => setCurrentPage(num)}
-                          className={`px-3 py-2 rounded-md ${currentPage === num ? "bg-black text-white" : "bg-white"}`}
-                          aria-current={currentPage === num ? "page" : undefined}
-                        >
-                          {num}
-                        </button>
-                      ))}
-                    </div>
+                      <div className="flex items-center gap-2 mx-3">
+                        {Array.from(
+                          { length: totalPages },
+                          (_, i) => i + 1
+                        ).map((num) => (
+                          <button
+                            key={num}
+                            onClick={() => setCurrentPage(num)}
+                            className={`px-3 py-2 rounded-md ${
+                              currentPage === num
+                                ? "bg-black text-white"
+                                : "bg-white"
+                            }`}
+                            aria-current={
+                              currentPage === num ? "page" : undefined
+                            }
+                          >
+                            {num}
+                          </button>
+                        ))}
+                      </div>
 
-                    <button
-                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
-                      className="px-3 py-2 border rounded-md bg-white hover:bg-gray-50 disabled:opacity-50"
-                    >
-                      Next
-                    </button>
-                  </nav>
-                ) : (
-                  <div className="w-full" />
-                )}
-              </div>
-            </>
+                      <button
+                        onClick={() =>
+                          setCurrentPage((p) => Math.min(totalPages, p + 1))
+                        }
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-2 border rounded-md bg-white hover:bg-gray-50 disabled:opacity-50"
+                      >
+                        Next
+                      </button>
+                    </nav>
+                  ) : (
+                    <div className="w-full" />
+                  )}
+                </div>
+              </>
             )}
           </main>
         </div>

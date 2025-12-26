@@ -22,6 +22,11 @@ const CreateProduct = () => {
     quantity: "",
     shipping: false,
   });
+  const [loading, setLoading] = useState(false);
+
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 3;
 
   // Fetch categories and products on mount
   useEffect(() => {
@@ -33,7 +38,6 @@ const CreateProduct = () => {
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get("/api/v1/category/get-category");
-      console.log(data.category);
       setCategories(data.category || []);
     } catch (err) {
       setError("Failed to load categories");
@@ -41,11 +45,14 @@ const CreateProduct = () => {
   };
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get("/api/v1/product/get-products");
       setProducts(data.products || []);
     } catch (err) {
       setError("Failed to load products");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -71,7 +78,7 @@ const CreateProduct = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setMessage(data.message);
+      setMessage(data.message || "Product created");
       setName("");
       setDescription("");
       setPrice("");
@@ -93,7 +100,7 @@ const CreateProduct = () => {
       price: prod.price,
       category: prod.category?._id || prod.category,
       quantity: prod.quantity,
-      shipping: prod.shipping,
+      shipping: !!prod.shipping,
     });
   };
 
@@ -123,7 +130,7 @@ const CreateProduct = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      setMessage(data.message);
+      setMessage(data.message || "Product updated");
       setEditId(null);
       setEditProduct({
         name: "",
@@ -148,13 +155,12 @@ const CreateProduct = () => {
         `/api/v1/product/delete-product/${id}`,
         { withCredentials: true }
       );
-      setMessage(data.message);
+      setMessage(data.message || "Product deleted");
       fetchProducts();
     } catch (err) {
       setError(err.response?.data?.message || "Error deleting product");
     }
   };
-  console.log("products", products);
 
   const getImageUrl = (photo) => {
     if (!photo || !photo.data || !photo.data.data) return "";
@@ -166,22 +172,33 @@ const CreateProduct = () => {
     return imageUrl;
   };
 
+  // pagination logic
+  const indexOfLast = currentPage * productsPerPage;
+  const indexOfFirst = indexOfLast - productsPerPage;
+  const currentProducts = products.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(products.length / productsPerPage) || 1;
+
   return (
-    <div className="card w-100 p-4">
-      <h2 className="mb-4 text-center fw-bold" style={{ color: "#222" }}>
-        Create Product
-      </h2>
-      <p className="text-muted text-center">
-        Add a new product to your store here.
-      </p>
+    <div className="bg-white rounded-xl  p-6">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Create Product
+          </h2>
+          <p className="text-base text-gray-500 mt-1">
+            Add or edit products for your store.
+          </p>
+        </div>
+      </div>
+
       <form
         onSubmit={editId ? handleEditSubmit : handleSubmit}
-        className="d-flex flex-column align-items-center"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6"
       >
-        <div className="mb-3 w-100" style={{ maxWidth: 400 }}>
+        <div className="lg:col-span-2 grid grid-cols-1 gap-3">
           <input
             type="text"
-            className="form-control mb-2"
+            className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:ring-0 focus:border-black"
             placeholder="Product Name"
             name="name"
             value={editId ? editProduct.name : name}
@@ -190,8 +207,9 @@ const CreateProduct = () => {
             }
             required
           />
+
           <textarea
-            className="form-control mb-2"
+            className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:ring-0 focus:border-black"
             placeholder="Description"
             name="description"
             value={editId ? editProduct.description : description}
@@ -200,65 +218,66 @@ const CreateProduct = () => {
             }
             required
           />
-          <input
-            type="number"
-            className="form-control mb-2"
-            placeholder="Price"
-            name="price"
-            value={editId ? editProduct.price : price}
-            onChange={
-              editId ? handleEditChange : (e) => setPrice(e.target.value)
-            }
-            required
-          />
-          <select
-            className="form-control mb-2"
-            name="category"
-            value={editId ? editProduct.category : category}
-            onChange={
-              editId ? handleEditChange : (e) => setCategory(e.target.value)
-            }
-            required
-          >
-            <option value="">Select Category</option>
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="number"
-            className="form-control mb-2"
-            placeholder="Quantity"
-            name="quantity"
-            value={editId ? editProduct.quantity : quantity}
-            onChange={
-              editId ? handleEditChange : (e) => setQuantity(e.target.value)
-            }
-            required
-          />
-          <div className="form-check mb-3">
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <input
+              type="number"
+              className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:ring-0 focus:border-black"
+              placeholder="Price"
+              name="price"
+              value={editId ? editProduct.price : price}
+              onChange={
+                editId ? handleEditChange : (e) => setPrice(e.target.value)
+              }
+              required
+            />
+
+            <select
+              className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:ring-0 focus:border-black"
+              name="category"
+              value={editId ? editProduct.category : category}
+              onChange={
+                editId ? handleEditChange : (e) => setCategory(e.target.value)
+              }
+              required
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              className="block w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:ring-0 focus:border-black"
+              placeholder="Quantity"
+              name="quantity"
+              value={editId ? editProduct.quantity : quantity}
+              onChange={
+                editId ? handleEditChange : (e) => setQuantity(e.target.value)
+              }
+              required
+            />
+          </div>
+
+          <label className="inline-flex items-center gap-2">
             <input
               type="checkbox"
-              className="form-check-input"
-              id="shipping"
               name="shipping"
               checked={editId ? editProduct.shipping : shipping}
               onChange={
-                editId
-                  ? handleEditChange
-                  : (e) => setShipping(e.target.checked)
+                editId ? handleEditChange : (e) => setShipping(e.target.checked)
               }
+              className="w-4 h-4 text-black"
             />
-            <label className="form-check-label ms-2" htmlFor="shipping">
-              Shipping Available
-            </label>
-          </div>
-          <div className="mt-3">
+            <span className="text-sm text-gray-700">Shipping Available</span>
+          </label>
+
+          <div>
             <input
               type="file"
-              className="form-control"
               accept="image/*"
               onChange={(e) => setPhoto(e.target.files[0])}
             />
@@ -266,96 +285,162 @@ const CreateProduct = () => {
               <img
                 src={URL.createObjectURL(photo)}
                 alt="Preview"
-                style={{ maxWidth: "100%", marginTop: 8, borderRadius: 8 }}
+                className="mt-2 rounded-md max-h-40"
               />
+            )}
+            {/* Actions placed under file input as requested */}
+            <div className="mt-4 flex items-center gap-3">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-black text-white rounded-lg font-medium"
+              >
+                {editId ? "Update" : "Create"}
+              </button>
+
+              {editId && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditId(null);
+                    setEditProduct({
+                      name: "",
+                      description: "",
+                      price: "",
+                      category: "",
+                      quantity: "",
+                      shipping: false,
+                    });
+                    setPhoto(null);
+                  }}
+                  className="px-4 py-2 bg-gray-100 text-gray-800 rounded-lg"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+
+            {message && (
+              <div className="mt-3 text-sm text-green-700 bg-green-50 p-3 rounded">
+                {message}
+              </div>
+            )}
+            {error && (
+              <div className="mt-3 text-sm text-red-700 bg-red-50 p-3 rounded">
+                {error}
+              </div>
             )}
           </div>
         </div>
-        <button
-          type="submit"
-          className="btn btn-primary"
-          style={{
-            background: "#222",
-            border: "none",
-            fontWeight: 600,
-            borderRadius: "8px",
-            padding: "0.7rem 2.5rem",
-          }}
-        >
-          {editId ? "Update" : "Create"}
-        </button>
-        {editId && (
-          <button
-            type="button"
-            className="btn btn-secondary ms-2 mt-2"
-            onClick={() => {
-              setEditId(null);
-              setEditProduct({
-                name: "",
-                description: "",
-                price: "",
-                category: "",
-                quantity: "",
-                shipping: false,
-              });
-              setPhoto(null);
-            }}
-          >
-            Cancel
-          </button>
-        )}
+
+        <div className="flex flex-col gap-3">
+          {/* right column left minimal; actions moved to bottom */}
+        </div>
       </form>
-      {message && <div className="alert alert-success mt-3">{message}</div>}
-      {error && <div className="alert alert-danger mt-3">{error}</div>}
-      <hr className="my-4" />
-      <h4 className="mb-3">All Products</h4>
-      <div className="row g-4">
-        {products.map((prod) => (
-          <div key={prod._id} className="col-md-4 col-sm-6">
-            <div className="card h-100 shadow-sm">
-              {prod._id && (
-                <img
-                  src={getImageUrl(prod.photo)}
-                  alt={prod.name}
-                  className="card-img-top"
-                  style={{
-                    objectFit: "cover",
-                    height: "220px",
-                    borderTopLeftRadius: "8px",
-                    borderTopRightRadius: "8px",
-                  }}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "https://via.placeholder.com/300x220?text=No+Image";
-                  }}
-                />
-              )}
-              <div className="card-body d-flex flex-column justify-content-between">
-                <div>
-                  <h5 className="card-title fw-bold mb-2">{prod.name}</h5>
-                  <p className="card-text mb-1">{prod.category?.name || "-"}</p>
-                  <p className="card-text small mb-2">{prod.description}</p>
-                </div>
-                <div className="mt-auto d-flex gap-2">
-                  <button
-                    className="btn btn-sm btn-warning flex-fill"
-                    onClick={() => handleEdit(prod)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-sm btn-danger flex-fill"
-                    onClick={() => handleDelete(prod._id)}
-                  >
-                    Delete
-                  </button>
+
+      <hr className="my-6" />
+
+      <h4 className="mb-4 text-lg font-medium text-gray-800">All Products</h4>
+
+      {loading ? (
+        <div className="py-8 text-center text-sm text-gray-500">
+          Loading products...
+        </div>
+      ) : products.length === 0 ? (
+        <div className="py-8 text-center text-sm text-gray-500">
+          No products yet.
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {currentProducts.map((prod) => (
+              <div
+                key={prod._id}
+                className="bg-white rounded-lg shadow-sm overflow-hidden"
+              >
+                {prod._id && (
+                  <img
+                    src={getImageUrl(prod.photo)}
+                    alt={prod.name}
+                    className="w-full h-44 object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://via.placeholder.com/400x300?text=No+Image";
+                    }}
+                  />
+                )}
+                <div className="p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h5 className="text-sm font-semibold text-gray-900">
+                        {prod.name}
+                      </h5>
+                      <p className="text-xs text-gray-500">
+                        {prod.category?.name || "-"}
+                      </p>
+                      <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+                        {prod.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex gap-2">
+                    <button
+                      onClick={() => handleEdit(prod)}
+                      className="flex-1 px-3 py-2 bg-black text-white rounded-md text-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(prod._id)}
+                      className="flex-1 px-3 py-2 bg-gray-100 text-gray-800 rounded-md text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {/* Pagination controls */}
+          {products.length > productsPerPage && (
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded-md bg-gray-200 text-gray-700 disabled:opacity-50"
+              >
+                Prev
+              </button>
+
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1 rounded-md ${
+                    currentPage === i + 1
+                      ? "bg-black text-white"
+                      : "bg-white border border-gray-200"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded-md bg-gray-200 text-gray-700 disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

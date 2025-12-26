@@ -17,22 +17,23 @@ const menuItems = [
 
 const AdminMenu = () => {
   return (
-    <div className="mx-0 mb-8 mt-0 pt-6 pb-2 bg-gray-100 rounded-xl shadow-md text-center">
-      <div className="max-w-[260px] mx-auto rounded-lg overflow-hidden bg-transparent">
+    <div className="mx-0 mb-8 mt-0 pt-6 pb-2 bg-white rounded-xl text-center">
+      <div className="max-w-[260px]  rounded-lg overflow-hidden">
         {menuItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
-              `block text-left text-[1.08rem] font-semibold px-5 py-4 mb-2 rounded-lg border-0 shadow-sm transition-all outline-none
-                            ${
-                              isActive
-                                ? "bg-black text-white shadow-lg z-10"
-                                : "bg-[#222] text-white hover:bg-black hover:text-white cursor-pointer"
-                            }`
+              `flex items-center gap-3 text-left text-[1.04rem] font-medium  py-3 mb-2 rounded-lg transition-colors outline-none
+               ${
+                 isActive
+                   ? "bg-black text-white  border-l-4 border-black"
+                   : "bg-white text-gray-800 border border-gray-200 hover:bg-gray-50"
+               }`
             }
           >
-            {item.label}
+            <span className="flex-shrink-0 w-2 h-6 rounded-md bg-transparent" />
+            <span className="grow">{item.label}</span>
           </NavLink>
         ))}
       </div>

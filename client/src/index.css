@@ -5,13 +5,13 @@
 /* Make form controls (checkbox/radio) use black accent color by default */
 input[type="checkbox"],
 input[type="radio"] {
-	accent-color: #000;
+    accent-color: #000;
 }
 
 /* Fallback for browsers that don't support accent-color: style custom appearance */
 input[type="checkbox"]::-ms-check,
 input[type="radio"]::-ms-check {
-	background: #000;
+    background: #000;
 }
 
 /* More specific rules for Bootstrap/Tailwind form inputs to ensure black accent */
@@ -20,14 +20,14 @@ input.form-check-input[type="checkbox"],
 input.form-check-input[type="radio"],
 .form-check-input[type="checkbox"],
 .form-check-input[type="radio"] {
-	accent-color: #000 !important;
-	-webkit-appearance: auto !important;
+    accent-color: #000 !important;
+    -webkit-appearance: auto !important;
 }
 
 /* Fallback tweaks for checked state in case browser uses background-color */
 .form-check-input:checked,
 input[type="checkbox"]:checked,
 input[type="radio"]:checked {
-	background-color: #000 !important;
-	border-color: #000 !important;
+    background-color: #000 !important;
+    border-color: #000 !important;
 }

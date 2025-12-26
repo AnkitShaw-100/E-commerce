@@ -70,14 +70,12 @@ const PaymentPage = () => {
 
               <h2 className="text-2xl font-semibold mb-2">Order Placed!</h2>
               <p className="text-gray-600 mb-4">
-                Thanks for shopping with 3legant 
+                Thanks for shopping with 3legant
               </p>
 
               <div className="mt-4">
                 <p className="text-sm text-gray-500">Order ID</p>
-                <p className="text-xl font-bold break-words">
-                  {orderPlacedId}
-                </p>
+                <p className="text-xl font-bold break-words">{orderPlacedId}</p>
               </div>
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
@@ -155,10 +153,7 @@ const PaymentPage = () => {
                   <div className="flex justify-between">
                     <span>Items</span>
                     <span>
-                      {cart.reduce(
-                        (sum, i) => sum + (i.quantity || 1),
-                        0
-                      )}
+                      {cart.reduce((sum, i) => sum + (i.quantity || 1), 0)}
                     </span>
                   </div>
 

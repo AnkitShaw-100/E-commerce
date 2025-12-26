@@ -1,41 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout.jsx";
 import UserMenu from "../../components/Layout/UserMenu";
 import { Outlet } from "react-router-dom";
+import axios from "axios";
 
 const UserDashboardHome = () => {
+  const [ordersCount, setOrdersCount] = useState(0);
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : "";
+    const fetchOrders = async () => {
+      try {
+        const { data } = await axios.get("/api/v1/order/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setOrdersCount((data.orders || []).length);
+      } catch (err) {
+        // ignore
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const pages = [
+    {
+      name: "Profile",
+      route: "/dashboard/user",
+      desc: "View and edit profile",
+      count: null,
+    },
+    {
+      name: "Orders",
+      route: "/dashboard/user/orders",
+      desc: "Your order history",
+      count: ordersCount,
+    },
+  ];
+
   return (
     <Layout title={"User Dashboard - Ecommerce App"}>
-      <div
-        className="container-fluid py-4 px-2 user-dashboard-bg"
-        style={{ overflowX: "hidden", minHeight: "90vh" }}
-      >
-        <div className="row g-4" style={{ overflowX: "hidden" }}>
-          {/* Sidebar */}
-          <div className="col-md-3 d-flex flex-column align-items-center pt-3">
-            <h2
-              className="mb-4 text-center fw-bold"
-              style={{
-                color: "#222",
-                letterSpacing: "1px",
-                fontSize: "2rem",
-                textShadow: "0 2px 8px rgba(34,34,34,0.08)",
-                cursor: "pointer",
-              }}
-              onClick={() => (window.location.href = "/dashboard/user")}
-            >
-              User Dashboard
-            </h2>
-            <div className="w-100 d-flex flex-column align-items-center">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="col-span-1">
+            <div className="mb-4">
+              <h2
+                className="text-4xl font-bold text-gray-900 mb-3 cursor-pointer"
+                onClick={() => (window.location.href = "/dashboard/user")}
+              >
+                User Dashboard
+              </h2>
               <UserMenu />
             </div>
           </div>
-          {/* Main Content */}
-          <div className="col-md-9 d-flex flex-column align-items-stretch justify-content-start pt-3">
-            <div
-              className="flex-grow-1 d-flex flex-column align-items-center w-100 h-100"
-              style={{ minHeight: "80vh", maxWidth: "100%" }}
-            >
+
+          <div className="col-span-1 lg:col-span-3">
+            <div className="bg-white rounded-xl shadow-sm p-4">
               <Outlet />
             </div>
           </div>

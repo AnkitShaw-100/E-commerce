@@ -1,42 +1,81 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdminMenu from "../../components/Layout/AdminMenu";
 
 import { useAuth } from "../../context/auth";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
+import axios from "axios";
 
 const AdminDashboard = () => {
   const [auth] = useAuth();
+
+  const [pages, setPages] = useState([
+    {
+      key: "users",
+      name: "Users",
+      route: "/dashboard/admin/users",
+      desc: "List and manage users",
+      count: 0,
+    },
+    {
+      key: "products",
+      name: "Products",
+      route: "/dashboard/admin/products",
+      desc: "List and edit products",
+      count: 0,
+    },
+    {
+      key: "categories",
+      name: "Categories",
+      route: "/dashboard/admin/categories",
+      desc: "List and edit categories",
+      count: 0,
+    },
+    {
+      key: "create-product",
+      name: "Create Product",
+      route: "/dashboard/admin/create-product",
+      desc: "Add new products to the catalog",
+      count: null,
+    },
+    {
+      key: "create-category",
+      name: "Create Category",
+      route: "/dashboard/admin/create-category",
+      desc: "Add a new product category",
+      count: null,
+    },
+  ]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : "";
+  }, []);
+
   return (
     <Layout title={"Admin Dashboard - Ecommerce App"}>
-      <div
-        className="container-fluid py-4 px-2 admin-dashboard-bg"
-        style={{ overflowX: "hidden", minHeight: "90vh" }}
-      >
-        <div className="row g-4" style={{ overflowX: "hidden" }}>
-          <div className="col-md-3 d-flex flex-column align-items-center pt-3">
-            <h2
-              className="mb-4 text-center fw-bold"
-              style={{
-                color: "#222",
-                letterSpacing: "1px",
-                fontSize: "2rem",
-                textShadow: "0 2px 8px rgba(34,34,34,0.08)",
-                cursor: "pointer",
-              }}
-              onClick={() => (window.location.href = "/dashboard/admin")}
-            >
-              Admin Dashboard
-            </h2>
-            <div className="w-100 d-flex flex-column align-items-center">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Left - Menu */}
+          <div className="col-span-1">
+            <div className="mb-4">
+              <h2
+                className="text-4xl font-bold text-gray-900 mb-3 cursor-pointer"
+                onClick={() => (window.location.href = "/dashboard/admin")}
+              >
+                Admin Dashboard
+              </h2>
               <AdminMenu />
             </div>
           </div>
-          <div className="col-md-9 d-flex flex-column align-items-stretch justify-content-start pt-3">
-            <div
-              className="flex-grow-1 d-flex flex-column align-items-center w-100 h-100"
-              style={{ minHeight: "80vh", maxWidth: "100%" }}
-            >
+
+          {/* Right - Content */}
+          <div className="col-span-1 lg:col-span-3">
+
+
+            {/* Nested routes render here */}
+            <div className="bg-white">
               <Outlet />
             </div>
           </div>
