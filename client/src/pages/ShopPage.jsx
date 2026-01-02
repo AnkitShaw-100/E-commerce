@@ -7,6 +7,7 @@ import Filters from "../components/Filter";
 
 const ShopPage = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState("");
@@ -27,11 +28,14 @@ const ShopPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const { data } = await axios.get("/api/v1/product/get-products");
         console.log(data);
         setProducts(data.products || []);
       } catch (err) {
         setError("Failed to load products");
+      } finally {
+        setLoading(false);
       }
     };
     fetchProducts();
@@ -160,7 +164,13 @@ const ShopPage = () => {
               </div>
             )}
 
-            {filteredProducts.length === 0 ? (
+            {loading ? (
+              <div className="w-full py-12 flex items-center justify-center">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="w-full py-12 flex flex-col items-center justify-center">
                 <p className="mt-4 text-lg text-gray-600">
                   No products match your filters.
